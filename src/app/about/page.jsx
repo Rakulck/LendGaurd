@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar'
 import Image from 'next/image'
-
+import FooterSection from '../../../sections/FooterSection'
 export default function About() {
   return (
     <div className="relative min-h-screen">
@@ -55,8 +55,8 @@ export default function About() {
                     <h2 className="text-2xl font-bold">Our Mission</h2>
                   </div>
                   <p className="text-2xl leading-relaxed text-gray-800 transition-all duration-300 group-hover:text-gray-900">
-                    To provide Optigo lenders with secure, fast, and affordable loan pre-screening services, 
-                    tailored to the demands of GSE, CMBS, and debt fund loans.
+                    To provide real estate lenders with secure, fast, and affordable loan sizing services, 
+                    tailored to the demands to increase profit margins.
                   </p>
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </div>
@@ -71,8 +71,7 @@ export default function About() {
                   </div>
                   <p className="text-2xl leading-relaxed text-gray-800 transition-all duration-300 group-hover:text-gray-900">
                     We understand the importance of efficiency and accuracy in the loan pre-screening process. 
-                    Our team brings years of experience in GSE, CMBS, and debt fund loans, delivering results 
-                    that help our clients stay competitive and compliant.
+                    Our team brings industry knowledge that delivers results to stay competitive and compliant.
                   </p>
                   <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500 transform origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </div>
@@ -85,6 +84,7 @@ export default function About() {
           </div>
         </div>
       </div>
+      <FooterSection /> 
     </div>
   );
 } 

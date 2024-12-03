@@ -4,7 +4,7 @@ export default function ServicesSection() {
       id="services-section"
       className="bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 py-24 pt-32 relative overflow-hidden"
     >
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 relative">
         <div className="text-center mb-20">
           <h2 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 tracking-tight">
             Our Services
@@ -17,7 +17,7 @@ export default function ServicesSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
           {/* GSE Loan Screening */}
           <div className="group relative overflow-hidden rounded-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 backdrop-blur-xl"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 backdrop-blur-xl"></div> */}
             <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(59,130,246,0.2)] transition-all duration-300">
               <div className="w-20 h-20 bg-blue-100 rounded-xl flex items-center justify-center mb-8 mx-auto">
                 <svg
@@ -47,7 +47,7 @@ export default function ServicesSection() {
 
           {/* CMBS Loan Screening */}
           <div className="group relative overflow-hidden rounded-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 backdrop-blur-xl"></div>
+            {/* <div className="absolute  bg-white/70 inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 backdrop-blur-xl"></div> */}
             <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(59,130,246,0.2)] transition-all duration-300">
               <div className="w-20 h-20 bg-green-100 rounded-xl flex items-center justify-center mb-8 mx-auto">
                 <svg
@@ -76,8 +76,7 @@ export default function ServicesSection() {
 
           {/* Debt Fund Loan Screening */}
           <div className="group relative overflow-hidden rounded-2xl transform hover:scale-[1.02] transition-all duration-300">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 backdrop-blur-xl"></div>
-            <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(59,130,246,0.2)] transition-all duration-300">
+            <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 border border-white/50">
               <div className="w-20 h-20 bg-purple-100 rounded-xl flex items-center justify-center mb-8 mx-auto">
                 <svg
                   className="w-12 h-12 text-purple-600"

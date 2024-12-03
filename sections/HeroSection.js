@@ -17,6 +17,7 @@ export default function HeroSection() {
                   Streamline and grow your real estate lending operations with
                   our expert offshore solutions. Our team delivers exceptional
                   talent and proven systems to help you scale efficiently and
+                  improve profitability.
                 </p>
                 <CTAButtons />
               </div>

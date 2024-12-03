@@ -24,12 +24,12 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-full bg-white shadow-md z-50">
+    <nav className="fixed w-full bg-white backdrop-blur-sm shadow-md z-50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-4xl font-bold text-gray-800 tracking-tight">
+            <Link href="/" className="text-5xl font-bold text-gray-800 tracking-tight">
               LendGuard
             </Link>
           </div>
@@ -40,19 +40,22 @@ export default function Navbar() {
               <a
                 href="#services-section"
                 onClick={scrollToServices}
-                className="text-xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300 cursor-pointer"
+                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300 cursor-pointer"
               >
                 Services
               </a>
+               <Link href="/whyus" className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300">
+                Why LendGaurd
+              </Link>
               <Link
                 href="/about"
-                className="text-xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
               >
                 About
               </Link>
               <Link
                 href="/contact"
-                className="text-xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
               >
                 Contact
               </Link>

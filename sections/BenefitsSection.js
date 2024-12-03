@@ -5,7 +5,7 @@ export default function BenefitsSection() {
         <div className="flex flex-col md:flex-row gap-36 justify-center items-center">
           {/* Left side - Headings */}
           <div className="md:w-1/3 md:pr-12">
-            <h2 className="text-6xl md:text-8xl xl:text-9xl font-bold text-gray-900 mb-12 tracking-tight">
+            <h2 className="text-7xl md:text-7xl xl:text-7xl font-bold text-gray-900 mb-12 tracking-tight">
               Key Benefits
             </h2>
             <p className="text-2xl text-gray-600 leading-relaxed">
