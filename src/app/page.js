@@ -1,10 +1,8 @@
-import Navbar from "../components/Navbar.jsx";
-import CTAButtons from "../components/CTAButtons.jsx";
-import FooterSection from "../../sections/FooterSection.js";
-import RevolutionSection from "../../sections/RevolutionSection.js";
-import BenefitsSection from "../../sections/BenefitsSection.js";
-import HeroSection from "../../sections/HeroSection.js";
-import ServicesSection from "../../sections/ServicesSection.js";
+import FooterSection from "./sections/FooterSection";
+import RevolutionSection from "./sections/RevolutionSection";
+import BenefitsSection from "./sections/BenefitsSection";
+import HeroSection from "./sections/HeroSection";
+import ServicesSection from "./sections/ServicesSection";
 
 export default function Home() {
   return (

@@ -1,8 +1,24 @@
-import Navbar from '../../components/Navbar';
-import FooterSection from '../../../sections/FooterSection';
-import CTAButtons from '../../components/CTAButtons';
+'use client';
+import { useState, useEffect } from 'react';
+import Navbar from '../../../components/Navbar';
+import FooterSection from '../../sections/FooterSection';
+import CTAButtons from '../../../components/CTAButtons';
 
 export default function WhyUs() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   const benefits = [
     {
       title: "Industry Knowledge",

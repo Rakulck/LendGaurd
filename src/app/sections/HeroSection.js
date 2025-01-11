@@ -1,5 +1,5 @@
-import Navbar from "../src/components/Navbar";
-import CTAButtons from "../src/components/CTAButtons";
+import Navbar from "../../components/Navbar.jsx";
+import CTAButtons from "../../components/CTAButtons.jsx";
 
 export default function HeroSection() {
   return (

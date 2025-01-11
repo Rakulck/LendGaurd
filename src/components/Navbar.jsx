@@ -59,6 +59,12 @@ export default function Navbar() {
               >
                 Contact
               </Link>
+              <Link
+                href="/login"
+                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
+              >
+                Login
+              </Link>
             </div>
           </div>
 
@@ -107,6 +113,12 @@ export default function Navbar() {
             Services
           </a>
           <Link
+            href="/whyus"
+            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
+          >
+            Why LendGaurd
+          </Link>
+          <Link
             href="/about"
             className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
@@ -117,6 +129,12 @@ export default function Navbar() {
             className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
             Contact
+          </Link>
+          <Link
+            href="/login"
+            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
+          >
+            Login
           </Link>
         </div>
       </div>

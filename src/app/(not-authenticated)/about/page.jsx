@@ -1,6 +1,6 @@
-import Navbar from '../../components/Navbar'
+import Navbar from '../../../components/Navbar.jsx'
 import Image from 'next/image'
-import FooterSection from '../../../sections/FooterSection'
+import FooterSection from '../../sections/FooterSection'
 export default function About() {
   return (
     <div className="relative min-h-screen">

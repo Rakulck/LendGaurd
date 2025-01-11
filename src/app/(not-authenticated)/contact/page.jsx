@@ -1,6 +1,6 @@
-import CalendlyWidget from '../../components/CalendlyWidget';
-import Navbar from '../../components/Navbar';
-import FooterSection from '../../../sections/FooterSection';
+import CalendlyWidget from '../../../components/CalendlyWidget';
+import Navbar from '../../../components/Navbar';
+import FooterSection from '../../sections/FooterSection';
 
 
 export default function Contact() {
