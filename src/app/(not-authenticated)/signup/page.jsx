@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { supabase } from "../../../../supabaseClient";
+import { supabase } from "../../../lib/supabase";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -14,54 +14,66 @@ export default function Auth() {
   const [officeLocation, setOfficeLocation] = useState("");
 
   const handleSignup = async () => {
-    // Basic validations
-    if (!firstName || !lastName || !email || !password || !jobPosition || !officeLocation) {
-      setError("All fields are required");
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address");
-      return;
-    }
-
-    // Add phone number validation
-    if (phoneNumber && !/^\d+$/.test(phoneNumber)) {
-      setError("Phone number must contain only digits");
-      return;
-    }
-
     try {
-      // Sign up with Supabase Auth
-      const { data: { user }, error: signUpError } = await supabase.auth.signUp({
+      setError(null);
+
+      // Basic form validation
+      if (!firstName || !lastName || !email || !password || !jobPosition || !officeLocation) {
+        setError("All fields are required");
+        return;
+      }
+
+      // Email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setError("Please enter a valid email address");
+        return;
+      }
+
+      // Phone number validation (if provided)
+      if (phoneNumber && !/^\d+$/.test(phoneNumber)) {
+        setError("Phone number must contain only digits");
+        return;
+      }
+
+      // Convert phone number to integer if provided (matching int8 type in DB)
+      const phoneInt = phoneNumber ? parseInt(phoneNumber, 10) : null;
+
+      // Validate phone number conversion
+      if (phoneNumber && isNaN(phoneInt)) {
+        setError("Phone number must be a valid number");
+        return;
+      }
+
+      // 1. Create auth user
+      const { data, error: authError } = await supabase.auth.signUp({
         email,
         password,
-      });
-
-      if (signUpError) throw signUpError;
-
-      // Insert additional user data into User table
-      const { error: profileError } = await supabase
-        .from('User')
-        .insert([
-          {
-            user_id: user.id,
+        options: {
+          data: {
             first_name: firstName.trim(),
             last_name: lastName.trim(),
-            mail_id: email.trim(),
-            ph_number: phoneNumber ? parseInt(phoneNumber) : null,
+            ph_number: phoneInt,
             job_position: jobPosition.trim(),
             office_location: officeLocation.trim(),
-            created_at: new Date().toISOString(),
           }
-        ]);
+        }
+      });
 
-      if (profileError) throw profileError;
+      if (authError) throw authError;
+      if (!data?.user?.id) throw new Error("No user ID returned from signup");
 
-      alert("Check your email for a confirmation link!");
+      // Set the session for the new user
+      const session = data.session;
+      if (session) {
+        supabase.auth.setSession(session);
+      }
+
+      alert("Success! Please check your email for the confirmation link.");
+      
     } catch (err) {
-      setError(err.message);
+      console.error("Signup error:", err);
+      setError(err.message || "An error occurred during signup");
     }
   };
 

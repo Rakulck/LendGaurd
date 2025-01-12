@@ -107,13 +107,12 @@ export default function AuthPage() {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <button
-                  type="button"
-                  onClick={handleResetPassword}
+                <a
+                  href="/reset-password"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   Forgot your password?
-                </button>
+                </a>
               </div>
             </div>
 
