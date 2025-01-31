@@ -10,6 +10,8 @@ export default function DocumentDetails() {
   const [documentName, setDocumentName] = useState("");
   const [address, setAddress] = useState("");
   const [dealName, setDealName] = useState("");
+  const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
+  const [createdAt, setCreatedAt] = useState(new Date().toLocaleString());
 
   const breadcrumbItems = [
     { label: "Menu", href: "/dashboard" },
@@ -36,7 +38,7 @@ export default function DocumentDetails() {
         <input
           type="text"
           id="dealName"
-          placeholder="Enter deal name"
+          placeholder="Edit deal name"
           value={dealName}
           onChange={(e) => setDealName(e.target.value)}
           className="w-full p-4 text-xl border-2 rounded-lg mb-6"
@@ -45,7 +47,7 @@ export default function DocumentDetails() {
         <input
           type="text"
           id="address"
-          placeholder="Enter property address"
+          placeholder="Edit property address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           className="w-full p-4 text-xl border-2 rounded-lg mb-6"
@@ -58,6 +60,14 @@ export default function DocumentDetails() {
               <div className="flex flex-col">
                 <span className="text-gray-600 text-lg mb-1">Document ID:</span>
                 <span className="font-medium text-xl">{documentId}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-600 text-lg mb-1">Created At:</span>
+                <span className="font-medium text-xl">{createdAt}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-600 text-lg mb-1">Last Updated:</span>
+                <span className="font-medium text-xl">{timestamp}</span>
               </div>
             </div>
           </div>

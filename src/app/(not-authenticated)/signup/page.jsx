@@ -61,32 +61,47 @@ export default function Auth() {
       });
 
       if (authError) throw authError;
-      if (!data?.user?.id) throw new Error("No user ID returned from signup");
 
-      // Set the session for the new user
-      const session = data.session;
-      if (session) {
-        supabase.auth.setSession(session);
-      }
+      // Immediately sign in after signup
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
 
-      alert("Success! Please check your email for the confirmation link.");
+      if (signInError) throw signInError;
+
+      // Redirect to dashboard
+      window.location.href = '/dashboard';
       
     } catch (err) {
       console.error("Signup error:", err);
-      setError(err.message || "An error occurred during signup");
+      if (err.message.includes('unique constraint')) {
+        if (err.message.includes('email')) {
+          setError('This email is already registered');
+        } else if (err.message.includes('ph_number')) {
+          setError('This phone number is already registered');
+        } else {
+          setError('A user with these details already exists');
+        }
+      } else {
+        setError(err.message || "An error occurred during signup");
+      }
     }
   };
 
   const handleLogin = async () => {
+    alert("Login functionality is temporarily disabled");
+    // Commenting out the original login code
+    /*
     const { user, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    
     });
     if (error) setError(error.message);
     else {
       window.location.href = '/dashboard';
     }
+    */
   };
 
   return (
@@ -153,12 +168,17 @@ export default function Auth() {
           </button>
 
           <div className="text-center mt-4">
+            <span className="text-gray-400 text-sm">
+              Login temporarily disabled
+            </span>
+            {/* Comment out or remove the login link
             <a 
               href="/login" 
               className="text-blue-500 hover:text-blue-600 text-sm"
             >
               Already have an account? Login
             </a>
+            */}
           </div>
 
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
