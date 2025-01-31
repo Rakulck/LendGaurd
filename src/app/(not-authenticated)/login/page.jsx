@@ -12,53 +12,7 @@ export default function AuthPage() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    setLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
 
-    if (error) {
-      setError(error.message);
-    } else {
-      router.push('/dashboard');
-    }
-    setLoading(false);
-  };
-
-  const handleSignup = async () => {
-    setLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError(error.message);
-    } else {
-      alert('Check your email for a confirmation link!');
-    }
-    setLoading(false);
-  };
-
-  const handleResetPassword = async () => {
-    if (!email) {
-      setError('Please enter your email address');
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
-    if (error) {
-      setError(error.message);
-    } else {
-      alert('Password reset instructions have been sent to your email!');
-    }
-    setLoading(false);
-  };
 
   return (
     <>
@@ -119,7 +73,7 @@ export default function AuthPage() {
             <div>
               <button
                 type="submit"
-                onClick={handleLogin}
+                // onClick={handleLogin}
                 disabled={loading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
