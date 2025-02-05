@@ -1,9 +1,12 @@
 "use client"
 import { useState } from "react";
-import { useAuth} from "../../../../usecontext/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
+import { useRouter } from 'next/navigation';
+// import { UserService } from "../../../services/user-service";
 
 export default function Auth() {  
-  const { signUp, loading } = useAuth();
+  const router = useRouter();
+  const { signUp, loading: authLoading, error: authError } = useAuth();
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,47 +28,27 @@ export default function Auth() {
   const handleSignup = async () => {
     try {
       setError(null);
-
-      // Basic form validation
-      if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.jobPosition || !formData.officeLocation) {
-        setError("All fields are required");
-        return;
-      }
-
-      // Email format validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        setError("Please enter a valid email address");
-        return;
-      }
-
-      // Phone number validation (if provided)
-      if (formData.phoneNumber && !/^\d+$/.test(formData.phoneNumber)) {
-        setError("Phone number must contain only digits");
-        return;
-      }
-
-      // Convert phone number to integer if provided
-      const phoneInt = formData.phoneNumber ? parseInt(formData.phoneNumber, 10) : null;
-
-      // Validate phone number conversion
-      if (formData.phoneNumber && isNaN(phoneInt)) {
-        setError("Phone number must be a valid number");
-        return;
-      }
-
-      const { error: signUpError } = await signUp(formData);
       
-      if (signUpError) {
-        setError(signUpError.message);
-        return;
-      }
+      const { error } = await signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone_number: formData.phoneNumber,
+            job_position: formData.jobPosition,
+            office_location: formData.officeLocation
+          }
+        }
+      });
+
+      if (error) throw error;
 
       alert('Please check your email for verification link!');
-      window.location.href = '/dashboard';
-      
+      router.push('/login');
     } catch (err) {
-      console.error("Signup error:", err);
+      console.error('Signup error:', err);
       setError(err.message || "An error occurred during signup");
     }
   };
@@ -135,19 +118,17 @@ export default function Auth() {
           />
           <button 
             onClick={handleSignup}
-            disabled={loading}
+            disabled={authLoading}
             className="w-full bg-blue-500 text-white p-3 text-lg rounded-md hover:bg-blue-600 transition-colors disabled:bg-blue-300"
           >
-            {loading ? "Signing up..." : "Sign Up"}
+            {authLoading ? "Signing up..." : "Sign Up"}
           </button>
 
-          <div className="text-center mt-4">
-            <span className="text-gray-400 text-sm">
-              Login temporarily disabled
-            </span>
-          </div>
-
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          {(error || authError) && (
+            <p className="text-red-500 text-sm text-center mt-2">
+              {error || authError}
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -1,18 +1,23 @@
 "use client"; 
 
 import { useState } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { useAuth } from '../../../context/AuthContext';
 import Navbar from '../../../components/Navbar';
 import { useRouter } from 'next/navigation';
 
 export default function AuthPage() {
   const router = useRouter();
+  const { signIn, loading: authLoading, error: authError } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const { error } = await signIn(email, password);
+    if (!error) {
+      router.push('/dashboard');
+    }
+  };
 
   return (
     <>
@@ -27,7 +32,7 @@ export default function AuthPage() {
               Please sign in to your account
             </p>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-8 space-y-6" onSubmit={handleLogin}>
             <div className="rounded-md shadow-sm space-y-4">
               <div>
                 <label htmlFor="email" className="sr-only">Email address</label>
@@ -73,11 +78,10 @@ export default function AuthPage() {
             <div>
               <button
                 type="submit"
-                // onClick={handleLogin}
-                disabled={loading}
+                disabled={authLoading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {authLoading ? 'Signing in...' : 'Sign in'}
               </button>
             </div>
           </form>
@@ -94,9 +98,9 @@ export default function AuthPage() {
             </p>
           </div>
 
-          {error && (
+          {authError && (
             <div className="mt-4 text-center text-sm text-red-600">
-              {error}
+              {authError}
             </div>
           )}
         </div>
