@@ -1,63 +1,38 @@
 "use client"; 
 
-import { useState } from 'react';
-import { supabase } from '../../../lib/supabase';
-import Navbar from '../../../components/Navbar';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../../context/AuthContext';
 import { useRouter } from 'next/navigation';
+import Navbar from '../../../components/Navbar';
 
 export default function AuthPage() {
+  const { signIn, isAuthenticated } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
+  // // Redirect if already authenticated
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     // router.push('/dashboard');
+  //   }
+  // }, [isAuthenticated, router]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setLoading(true);
     setError(null);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
 
-    if (error) {
-      setError(error.message);
-    } else {
+    try {
+      await signIn({ email, password });
       router.push('/dashboard');
-    }
-    setLoading(false);
-  };
-
-  const handleSignup = async () => {
-    setLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
+    } catch (error) {
       setError(error.message);
-    } else {
-      alert('Check your email for a confirmation link!');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  };
-
-  const handleResetPassword = async () => {
-    if (!email) {
-      setError('Please enter your email address');
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
-    if (error) {
-      setError(error.message);
-    } else {
-      alert('Password reset instructions have been sent to your email!');
-    }
-    setLoading(false);
   };
 
   return (
@@ -73,7 +48,7 @@ export default function AuthPage() {
               Please sign in to your account
             </p>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form onSubmit={handleLogin} className="mt-8 space-y-6">
             <div className="rounded-md shadow-sm space-y-4">
               <div>
                 <label htmlFor="email" className="sr-only">Email address</label>
@@ -119,7 +94,6 @@ export default function AuthPage() {
             <div>
               <button
                 type="submit"
-                onClick={handleLogin}
                 disabled={loading}
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >

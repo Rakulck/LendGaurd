@@ -8,7 +8,7 @@ export default function DocumentDetails() {
   const params = useParams();
   const documentId = params.id;
   const [documentName, setDocumentName] = useState("");
-  const [address, setAddress] = useState("");
+  // const [address, setAddress] = useState("");
   const [dealName, setDealName] = useState("");
   const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
   const [createdAt, setCreatedAt] = useState(new Date().toLocaleString());
@@ -60,8 +60,8 @@ export default function DocumentDetails() {
                   type="text"
                   id="address"
                   placeholder="Enter property address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
+                  // value={address}
+                  // onChange={(e) => setAddress(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg transition-colors"
                 />
               </div>
