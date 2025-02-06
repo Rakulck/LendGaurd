@@ -31,47 +31,65 @@ export default function DocumentDetails() {
   }, [documentName]);
 
   return (
-    <div className="p-8">
-      <Breadcrumbs items={breadcrumbItems} />
-
-      <div className="max-w-2xl mx-auto">
-        <input
-          type="text"
-          id="dealName"
-          placeholder="Edit deal name"
-          value={dealName}
-          onChange={(e) => setDealName(e.target.value)}
-          className="w-full p-4 text-xl border-2 rounded-lg mb-6"
-        />
-
-        <input
-          type="text"
-          id="address"
-          placeholder="Edit property address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="w-full p-4 text-xl border-2 rounded-lg mb-6"
-        />
-
-        {documentId && (
-          <div className="bg-white p-8 rounded-lg shadow-lg border-2 border-gray-200">
-            <h2 className="text-2xl font-semibold mb-6">Document Details</h2>
-            <div className="space-y-4">
-              <div className="flex flex-col">
-                <span className="text-gray-600 text-lg mb-1">Document ID:</span>
-                <span className="font-medium text-xl">{documentId}</span>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumbs items={breadcrumbItems} />
+        
+        <div className="mt-8 max-w-3xl mx-auto">
+          <div className="bg-white shadow-sm rounded-lg p-6 mb-8">
+            <div className="space-y-6">
+              <div>
+                <label htmlFor="dealName" className="block text-sm font-medium text-gray-700 mb-1">
+                  Deal Name
+                </label>
+                <input
+                  type="text"
+                  id="dealName"
+                  placeholder="Enter deal name"
+                  value={dealName}
+                  onChange={(e) => setDealName(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg transition-colors"
+                />
               </div>
-              <div className="flex flex-col">
-                <span className="text-gray-600 text-lg mb-1">Created At:</span>
-                <span className="font-medium text-xl">{createdAt}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-gray-600 text-lg mb-1">Last Updated:</span>
-                <span className="font-medium text-xl">{timestamp}</span>
+
+              <div>
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                  Property Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  placeholder="Enter property address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg transition-colors"
+                />
               </div>
             </div>
           </div>
-        )}
+
+          {documentId && (
+            <div className="bg-white shadow-sm rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-6 pb-4 border-b border-gray-200">
+                Document Details
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Document ID</h3>
+                  <p className="text-lg font-medium text-gray-900">{documentId}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Created At</h3>
+                  <p className="text-lg font-medium text-gray-900">{createdAt}</p>
+                </div>
+                <div className="md:col-span-2">
+                  <h3 className="text-sm font-medium text-gray-500 mb-1">Last Updated</h3>
+                  <p className="text-lg font-medium text-gray-900">{timestamp}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
