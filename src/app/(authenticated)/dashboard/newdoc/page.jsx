@@ -6,7 +6,9 @@ import Breadcrumbs from "../../../../components/Breadcrumbs";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText } from "react-icons/fi";
 import { useAuth } from '../../../../context/AuthContext';
-import { uploadFile, removeFile } from '../../../../utils/supabaseBucket';
+import { uploadFile } from '../../../../utils/supabaseBucket';
+import { useRouter } from 'next/navigation';
+import { supabase } from "../../../../lib/supabase";
 
 const libraries = ["places"];
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -35,20 +37,23 @@ export default function NewDoc() {
     libraries,
   });
 
+  const router = useRouter();
+
   const handleFileUpload = async (e, type) => {
     const files = Array.from(e.target.files);
     
     try {
       const uploadPromises = files.map(async (file) => {
-        const folderName = type === 'rentroll' ? 'rentroll' : 't12';
-        console.log('Uploading file to:', folderName);
-        const { data, error } = await uploadFile(file, folderName, user.id);
+        const result = await uploadFile(file, user.id);
         
-        if (error) throw error;
+        // Ensure result is defined and has the expected structure
+        if (!result || !result.path) {
+          throw new Error('File upload failed: Invalid response from server');
+        }
 
         return {
           name: file.name,
-          path: data.path,
+          path: result.path, // Use the path from the upload result
           type: file.type,
           size: file.size
         };
@@ -104,6 +109,59 @@ export default function NewDoc() {
       });
     }
   }, [isLoaded]);
+
+  const handleSubmit = async () => {
+    try {
+      // Basic validation
+      if (!dealName.trim()) {
+        throw new Error('Deal name is required');
+      }
+
+      // Commented out address validation to make it optional
+      // if (!address.trim()) {
+      //   throw new Error('Property address is required');
+      // }
+
+      // Check if files are actually uploaded
+      const hasUploadedFiles = 
+        uploadedFiles.rentroll.length > 0 || 
+        uploadedFiles.t12.length > 0;
+
+      if (!hasUploadedFiles) {
+        throw new Error('Please upload at least one file (Rent Roll or T12)');
+      }
+
+      // Create deal object
+      const dealData = {
+        deal_name: dealName,
+        property_address: address,
+        property_details: propertyDetails,
+        created_at: new Date().toISOString(),
+        user_id: user.id,
+        files: {
+          rentroll: uploadedFiles.rentroll,
+          t12: uploadedFiles.t12
+        }
+      };
+
+      // Save deal to database
+      const { data: deal, error: dealError } = await supabase
+        .from('deals')
+        .insert([dealData])
+        .select()
+        .single();
+
+      if (dealError) throw dealError;
+
+      // Show success message
+      alert('Deal created successfully!');
+      router.push('/dashboard');
+
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Error creating deal: ' + error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -269,7 +327,7 @@ export default function NewDoc() {
               {/* Save Button */}
               <button
                 className="group w-full py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 relative overflow-hidden"
-                onClick={() => console.log("Save Deal Analysis")}
+                onClick={handleSubmit}
               >
                 <div className="absolute inset-0" />
                 <FiCheckCircle className="w-5 h-5 relative z-10" />
