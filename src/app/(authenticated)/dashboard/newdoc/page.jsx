@@ -5,6 +5,8 @@ import { useLoadScript } from "@react-google-maps/api";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText } from "react-icons/fi";
+import { uploadFile, deleteFile } from '../../../../utils/supabaseBucket';
+import { useAuth } from '../../../../context/AuthContext';
 
 const libraries = ["places"];
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
@@ -32,38 +34,58 @@ export default function NewDoc() {
   });
 
   const supabase = createClientComponentClient();
+  const { user } = useAuth();
 
   const handleFileUpload = async (e, type) => {
     const files = Array.from(e.target.files);
     
-    for (const file of files) {
-      try {
+    try {
+      const uploadPromises = files.map(async (file) => {
         // Check file size (50MB limit)
         if (file.size > 50 * 1024 * 1024) {
           throw new Error('File size exceeds 50MB limit');
         }
 
-        // Just update the state with the file info
-        setUploadedFiles(prev => ({
-          ...prev,
-          [type]: [...prev[type], { 
-            name: file.name, 
-            path: URL.createObjectURL(file) // Create a local URL for the file
-          }]
-        }));
-      } catch (error) {
-        console.error('Error handling file:', error.message);
-        alert(`Failed to handle ${file.name}: ${error.message}`);
-      }
+        // Upload file to Supabase
+        const result = await uploadFile(file, user.id);
+        
+        if (!result || !result.path) {
+          throw new Error('File upload failed: Invalid response from server');
+        }
+
+        return {
+          name: file.name,
+          path: result.path,
+          type: file.type,
+          size: file.size
+        };
+      });
+
+      const uploaded = await Promise.all(uploadPromises);
+      setUploadedFiles(prev => ({
+        ...prev,
+        [type]: [...prev[type], ...uploaded]
+      }));
+    } catch (error) {
+      console.error('Upload failed:', error);
+      alert('File upload failed: ' + error.message);
     }
   };
 
-  const handleRemoveFile = (type, filePath) => {
-    // Just remove from state
-    setUploadedFiles(prev => ({
-      ...prev,
-      [type]: prev[type].filter(file => file.path !== filePath)
-    }));
+  const handleRemoveFile = async (type, filePath) => {
+    try {
+      // Delete file from Supabase
+      await deleteFile(filePath);
+      
+      // Remove from state
+      setUploadedFiles(prev => ({
+        ...prev,
+        [type]: prev[type].filter(file => file.path !== filePath)
+      }));
+    } catch (error) {
+      console.error('File removal failed:', error);
+      alert('File removal failed: ' + error.message);
+    }
   };
 
   useEffect(() => {
@@ -122,7 +144,7 @@ export default function NewDoc() {
                 </div>
               </div>
 
-              {/* Address Autocomplete */}
+              {/* Commented out property address for now
               <div>
                 <label className="block text-base font-medium text-gray-700 mb-2">
                   Property Address
@@ -140,6 +162,7 @@ export default function NewDoc() {
                   <FiFileText className="absolute right-3 top-3.5 text-gray-400 w-5 h-5" />
                 </div>
               </div>
+              */}
 
               {/* File Upload Sections */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -220,7 +243,7 @@ export default function NewDoc() {
                 </div>
               </div>
 
-              {/* Property Details */}
+              {/* Commented out property details for now
               {address && (
                 <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">Property Details</h3>
@@ -232,8 +255,9 @@ export default function NewDoc() {
                   </div>
                 </div>
               )}
+              */}
 
-              {/* Processing Status */}
+              {/* Processing Status
               <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
                 <div className="flex items-center space-x-3 mb-4">
                   <FiCheckCircle className="w-6 h-6 text-blue-600" />
@@ -248,7 +272,7 @@ export default function NewDoc() {
                 <p className="text-xs text-blue-600 mt-3 text-center">
                   Typically completes within 15-20 minutes
                 </p>
-              </div>
+              </div> */}
 
               {/* Save Button */}
               <button
