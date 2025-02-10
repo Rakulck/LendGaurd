@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText } from "react-icons/fi";
+import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText, FiDownload } from "react-icons/fi";
 import { useAuth } from '../../../../context/AuthContext';
 import { uploadFile , deleteFile } from '../../../../utils/supabaseBucket';
 import { useRouter } from 'next/navigation';
@@ -48,6 +48,8 @@ export default function NewDoc() {
 
   // Add new state for tracking submission
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processedFiles, setProcessedFiles] = useState(null);
 
  // Upload files to supabase bucket
 
@@ -212,16 +214,53 @@ export default function NewDoc() {
       }
 
       console.log('Deal saved successfully:', deal); // Success log
-      // Don't redirect immediately - let user see the progress
+      // Show processing state
+      setIsProcessing(true);
+
+      // Simulate processing (5 seconds)
       setTimeout(() => {
-        alert('Deal created successfully!');
-        router.push('/dashboard');
-      }, 2000);
+        setIsProcessing(false);
+        setProcessedFiles({
+          rentroll: uploadedFiles.rentroll.map(file => ({
+            ...file,
+            processedName: `Processed_${file.name}`
+          })),
+          t12: uploadedFiles.t12.map(file => ({
+            ...file,
+            processedName: `Processed_${file.name}`
+          }))
+        });
+      }, 5000);
 
     } catch (error) {
       console.error('Full error object:', error); // Full error log
       alert('Error creating deal: ' + error.message);
       setIsSubmitting(false); // Reset on error
+    }
+  };
+
+  // Add download handler
+  const handleDownload = async (file) => {
+    try {
+      const { data, error } = await supabase
+        .storage
+        .from('user-documents')
+        .download(file.path);
+
+      if (error) throw error;
+
+      // Create download link
+      const url = window.URL.createObjectURL(data);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = file.processedName;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Error downloading file: ' + error.message);
     }
   };
 
@@ -367,37 +406,84 @@ export default function NewDoc() {
                 </div>
               )}
 
-              {/* Conditional rendering of Analysis Progress */}
-              {isSubmitting && (
+              {/* Processing and Download States */}
+              {isProcessing ? (
+                // Processing Status
                 <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
                   <div className="flex items-center space-x-3 mb-4">
                     <FiCheckCircle className="w-6 h-6 text-blue-600" />
                     <h3 className="text-lg font-semibold text-blue-800">Analysis in Progress</h3>
                   </div>
                   <p className="text-sm text-blue-700 mb-4">
-                    Our AI is processing your documents. You'll receive a notification when your analysis is ready.
+                    Our AI is processing your documents. Please wait...
                   </p>
                   <div className="relative h-2 bg-blue-100 rounded-full overflow-hidden">
                     <div className="absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-[loading_1.5s_ease-in-out_infinite]" />
                   </div>
                   <p className="text-xs text-blue-600 mt-3 text-center">
-                    Typically completes within 15-20 minutes
+                    This usually takes about 5-6 seconds
                   </p>
                 </div>
-              )}
+              ) : processedFiles ? (
+                // Download Section
+                <div className="bg-green-50 rounded-xl p-6 border border-green-200">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <FiCheckCircle className="w-6 h-6 text-green-600" />
+                    <h3 className="text-lg font-semibold text-green-800">Processing Complete!</h3>
+                  </div>
+                  <p className="text-sm text-green-700 mb-4">
+                    Your documents have been processed. Click below to download:
+                  </p>
+                  <div className="space-y-3">
+                    {/* Rent Roll Downloads */}
+                    {processedFiles.rentroll?.map((file, index) => (
+                      <button
+                        key={`rentroll-${index}`}
+                        onClick={() => handleDownload(file)}
+                        className="w-full flex items-center justify-between p-3 bg-white rounded-lg border border-green-200 hover:bg-green-50 transition-colors"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <FiFileText className="w-5 h-5 text-green-600" />
+                          <span className="text-sm font-medium text-green-800">
+                            {file.processedName}
+                          </span>
+                        </div>
+                        <FiDownload className="w-5 h-5 text-green-600" />
+                      </button>
+                    ))}
 
-              {/* Submit button - disabled while submitting */}
-              <button
-                className={`group w-full py-3.5 px-6 ${
-                  isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-                } text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 relative overflow-hidden`}
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-              >
-                <div className="absolute inset-0" />
-                <FiCheckCircle className="w-5 h-5 relative z-10" />
-                <span className="relative z-10">{isSubmitting ? 'Submitting...' : 'Submit'}</span>
-              </button>
+                    {/* T12 Downloads */}
+                    {processedFiles.t12?.map((file, index) => (
+                      <button
+                        key={`t12-${index}`}
+                        onClick={() => handleDownload(file)}
+                        className="w-full flex items-center justify-between p-3 bg-white rounded-lg border border-green-200 hover:bg-green-50 transition-colors"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <FiFileText className="w-5 h-5 text-green-600" />
+                          <span className="text-sm font-medium text-green-800">
+                            {file.processedName}
+                          </span>
+                        </div>
+                        <FiDownload className="w-5 h-5 text-green-600" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                // Submit Button (your existing submit button)
+                <button
+                  className={`group w-full py-3.5 px-6 ${
+                    isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                  } text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 relative overflow-hidden`}
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                >
+                  <div className="absolute inset-0" />
+                  <FiCheckCircle className="w-5 h-5 relative z-10" />
+                  <span className="relative z-10">{isSubmitting ? 'Submitting...' : 'Submit'}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
