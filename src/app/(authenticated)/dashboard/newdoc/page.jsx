@@ -3,21 +3,25 @@
 import { useState, useEffect } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+// import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText } from "react-icons/fi";
 import { useAuth } from '../../../../context/AuthContext';
-import { uploadFile } from '../../../../utils/supabaseBucket';
+import { uploadFile , deleteFile } from '../../../../utils/supabaseBucket';
 import { useRouter } from 'next/navigation';
 import { supabase } from "../../../../lib/supabase";
 
+
+// realted to google maps autocomplete
 const libraries = ["places"];
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-if (!googleMapsApiKey) {
-  throw new Error("Google Maps API key is missing");
-}
+  if (!googleMapsApiKey) {
+    throw new Error("Google Maps API key is missing");
+  }
 
+// realted to file upload
 export default function NewDoc() {
+  
   const { user } = useAuth();
   const [uploadedFiles, setUploadedFiles] = useState({
     rentroll: [],
@@ -32,83 +36,119 @@ export default function NewDoc() {
     units: ''
   });
 
+  // realted to google maps autocomplete
   const { isLoaded } = useLoadScript({
     googleMapsApiKey,
     libraries,
   });
 
+
+
   const router = useRouter();
 
+
+ // Upload files to supabase bucket
+
   const handleFileUpload = async (e, type) => {
-    const files = Array.from(e.target.files);
-    
-    try {
-      const uploadPromises = files.map(async (file) => {
+  if (!user?.id) {
+    alert('User not found. Please log in.');
+    return;
+  }
+
+  // convert files to  array 
+
+  const files = Array.from(e.target.files);
+  const uploadedFiles = [];
+
+  try {
+    for (const file of files) {
+      try {
+        // Upload file to Supabase
         const result = await uploadFile(file, user.id);
-        
-        // Ensure result is defined and has the expected structure
+
+        // Validate upload response
         if (!result || !result.path) {
-          throw new Error('File upload failed: Invalid response from server');
+          console.warn(`Upload failed for ${file.name}`);
+          continue; // Skip to the next file instead of throwing
         }
 
-        return {
+        uploadedFiles.push({
           name: file.name,
-          path: result.path, // Use the path from the upload result
+          path: result.path,
           type: file.type,
-          size: file.size
-        };
-      });
+          size: file.size,
 
-      const uploaded = await Promise.all(uploadPromises);
-      setUploadedFiles(prev => ({
-        ...prev,
-        [type]: [...prev[type], ...uploaded]
-      }));
-    } catch (error) {
-      console.error('Upload failed:', error);
-      alert('File upload failed: ' + error.message);
+        });
+      } catch (fileError) {
+        console.error(`Error uploading ${file.name}:`, fileError);
+      }
     }
-  };
 
+    // Only update state once after all uploads
+    if (uploadedFiles.length > 0) {
+      setUploadedFiles((prev) => ({
+        ...prev,
+        [type]: [...prev[type], ...uploadedFiles],
+      }));
+    } else {
+      alert('No files were uploaded.');
+    }
+  } catch (error) {
+    console.error('File upload failed:', error);
+    alert('File upload failed: ' + error.message);
+  }
+};
+
+ 
+  // remove files 
   const handleRemoveFile = async (type, filePath) => {
-    try {
-      const { error } = await removeFile(filePath);
-      if (error) throw error;
-
-      setUploadedFiles(prev => ({
-        ...prev,
-        [type]: prev[type].filter(file => file.path !== filePath)
-      }));
-    } catch (error) {
-      console.error('File removal failed:', error);
-      alert('File removal failed: ' + error.message);
+  try {
+    // Call the correct function (deleteFile instead of removeFile)
+    const success = await deleteFile(filePath);
+    
+    if (!success) {
+      throw new Error('Failed to delete file from Supabase.');
     }
-  };
 
-  useEffect(() => {
-    if (isLoaded) {
-      const input = document.getElementById("google-places-autocomplete");
-      const autocomplete = new window.google.maps.places.Autocomplete(input, {
-        types: ["address"],
-        componentRestrictions: { country: "us" },
-      });
+    // Update state only if deletion was successful
+    setUploadedFiles(prev => ({
+      ...prev,
+      [type]: prev[type].filter(file => file.path !== filePath)
+    }));
 
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        if (place.formatted_address) {
-          setAddress(place.formatted_address);
+    console.log(`File successfully removed: ${filePath}`);
+  } catch (error) {
+    console.error('File removal failed:', error);
+    alert('File removal failed: ' + error.message);
+  }
+};
+
+
+  // comment right now 
+  // useEffect(() => {
+  //   if (isLoaded) {
+  //     const input = document.getElementById("google-places-autocomplete");
+  //     const autocomplete = new window.google.maps.places.Autocomplete(input, {
+  //       types: ["address"],
+  //       componentRestrictions: { country: "us" },
+  //     });
+
+  //     autocomplete.addListener("place_changed", () => {
+  //       const place = autocomplete.getPlace();
+  //       if (place.formatted_address) {
+  //         setAddress(place.formatted_address);
           
-          const addressComponents = place.address_components || [];
-          const propertyName = place.name || "";
+  //         const addressComponents = place.address_components || [];
+  //         const propertyName = place.name || "";
           
-          setPropertyDetails(prev => ({
-            ...prev,
-            propertyName: propertyName,
-          }));
-        }
-      });
-    }
-  }, [isLoaded]);
+  //         setPropertyDetails(prev => ({
+  //           ...prev,
+  //           propertyName: propertyName,
+  //         }));
+  //       }
+  //     });
+  //   }
+  // }, [isLoaded]);
 
   const handleSubmit = async () => {
     try {
@@ -116,11 +156,6 @@ export default function NewDoc() {
       if (!dealName.trim()) {
         throw new Error('Deal name is required');
       }
-
-      // Commented out address validation to make it optional
-      // if (!address.trim()) {
-      //   throw new Error('Property address is required');
-      // }
 
       // Check if files are actually uploaded
       const hasUploadedFiles = 
@@ -131,34 +166,53 @@ export default function NewDoc() {
         throw new Error('Please upload at least one file (Rent Roll or T12)');
       }
 
-      // Create deal object
       const dealData = {
-        deal_name: dealName,
-        property_address: address,
-        property_details: propertyDetails,
-        created_at: new Date().toISOString(),
-        user_id: user.id,
+        deal_name: dealName.trim(),
+        // Only include optional fields if they have values
+        ...(address?.trim() && { property_address: address.trim() }),
+        ...(propertyDetails && { property_details: propertyDetails }),
+        // Only include files that were actually uploaded
         files: {
-          rentroll: uploadedFiles.rentroll,
-          t12: uploadedFiles.t12
+          ...(uploadedFiles.rentroll.length > 0 && {
+            rentroll: uploadedFiles.rentroll.map(file => ({
+              name: file.name,
+              path: file.path,
+              size: file.size,
+              type: file.type
+            }))
+          }),
+          ...(uploadedFiles.t12.length > 0 && {
+            t12: uploadedFiles.t12.map(file => ({
+              name: file.name,
+              path: file.path,
+              size: file.size,
+              type: file.type
+            }))
+          })
         }
+        // Removed status, created_at, and updated_at as they're DB defaults
       };
+
+      console.log('Submitting deal data:', dealData); // Debug log
 
       // Save deal to database
       const { data: deal, error: dealError } = await supabase
-        .from('deals')
-        .insert([dealData])
+        .from('Deal')
+        .insert(dealData)
         .select()
         .single();
 
-      if (dealError) throw dealError;
+      if (dealError) {
+        console.error('Database error details:', dealError); // Detailed error log
+        throw new Error(`Failed to save deal: ${dealError.message}`);
+      }
 
-      // Show success message
+      console.log('Deal saved successfully:', deal); // Success log
       alert('Deal created successfully!');
       router.push('/dashboard');
 
     } catch (error) {
-      console.error('Submission error:', error);
+      console.error('Full error object:', error); // Full error log
       alert('Error creating deal: ' + error.message);
     }
   };

@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Breadcrumbs from "../../../../../components/Breadcrumbs";
+import Breadcrumbs from "../../../../../../../components/Breadcrumbs";
 
 export default function DocumentDetails() {
   const params = useParams();
