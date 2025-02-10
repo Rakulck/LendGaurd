@@ -6,7 +6,7 @@ import Breadcrumbs from "../../../../components/Breadcrumbs";
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText, FiDownload } from "react-icons/fi";
 import { useAuth } from '../../../../context/AuthContext';
-import { uploadFile , deleteFile } from '../../../../utils/supabaseBucket';
+import { uploadFile , deleteFile, downloadFile } from '../../../../utils/supabaseBucket';
 import { useRouter } from 'next/navigation';
 import { supabase } from "../../../../lib/supabase";
 
@@ -242,18 +242,13 @@ export default function NewDoc() {
   // Add download handler
   const handleDownload = async (file) => {
     try {
-      const { data, error } = await supabase
-        .storage
-        .from('user-documents')
-        .download(file.path);
-
-      if (error) throw error;
-
+      const data = await downloadFile(file.path);
+      
       // Create download link
       const url = window.URL.createObjectURL(data);
       const a = document.createElement('a');
       a.href = url;
-      a.download = file.processedName;
+      a.download = file.processedName || 'processed_file.csv';
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

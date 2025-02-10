@@ -1,4 +1,3 @@
-
 import { supabase } from '../lib/supabase';
 
 /**
@@ -130,4 +129,25 @@ function getFileTypeFlags(fileName) {
     isImage: ['jpg', 'jpeg', 'png', 'webp'].includes(extension),
     isDocument: ['pdf', 'doc', 'docx', 'txt', 'xls', 'xlsx'].includes(extension)
   };
+}
+
+/**
+ * Downloads a file from Supabase Storage.
+ * @param {string} filePath - The path of the file to download.
+ * @returns {Promise<Blob>} The file data.
+ */
+export async function downloadFile(filePath) {
+  try {
+    console.log(`Downloading file: ${filePath}`);
+    const { data, error } = await supabase.storage
+      .from('user-deals')
+      .download(filePath);
+
+    if (error) throw new Error(`Download failed: ${error.message}`);
+
+    return data;
+  } catch (error) {
+    console.error('Download error:', error);
+    throw error;
+  }
 }
