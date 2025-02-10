@@ -46,6 +46,8 @@ export default function NewDoc() {
 
   const router = useRouter();
 
+  // Add new state for tracking submission
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
  // Upload files to supabase bucket
 
@@ -152,6 +154,8 @@ export default function NewDoc() {
 
   const handleSubmit = async () => {
     try {
+      setIsSubmitting(true); // Set submitting state to true when starting
+      
       // Basic validation
       if (!dealName.trim()) {
         throw new Error('Deal name is required');
@@ -208,12 +212,16 @@ export default function NewDoc() {
       }
 
       console.log('Deal saved successfully:', deal); // Success log
-      alert('Deal created successfully!');
-      router.push('/dashboard');
+      // Don't redirect immediately - let user see the progress
+      setTimeout(() => {
+        alert('Deal created successfully!');
+        router.push('/dashboard');
+      }, 2000);
 
     } catch (error) {
       console.error('Full error object:', error); // Full error log
       alert('Error creating deal: ' + error.message);
+      setIsSubmitting(false); // Reset on error
     }
   };
 
@@ -359,33 +367,36 @@ export default function NewDoc() {
                 </div>
               )}
 
-
-              {/* Processing Status after submit
-
-              <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
-                <div className="flex items-center space-x-3 mb-4">
-                  <FiCheckCircle className="w-6 h-6 text-blue-600" />
-                  <h3 className="text-lg font-semibold text-blue-800">Analysis in Progress</h3>
+              {/* Conditional rendering of Analysis Progress */}
+              {isSubmitting && (
+                <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <FiCheckCircle className="w-6 h-6 text-blue-600" />
+                    <h3 className="text-lg font-semibold text-blue-800">Analysis in Progress</h3>
+                  </div>
+                  <p className="text-sm text-blue-700 mb-4">
+                    Our AI is processing your documents. You'll receive a notification when your analysis is ready.
+                  </p>
+                  <div className="relative h-2 bg-blue-100 rounded-full overflow-hidden">
+                    <div className="absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-[loading_1.5s_ease-in-out_infinite]" />
+                  </div>
+                  <p className="text-xs text-blue-600 mt-3 text-center">
+                    Typically completes within 15-20 minutes
+                  </p>
                 </div>
-                <p className="text-sm text-blue-700 mb-4">
-                  Our AI is processing your documents. You'll receive a notification when your analysis is ready.
-                </p>
-                <div className="relative h-2 bg-blue-100 rounded-full overflow-hidden">
-                  <div className="absolute top-0 left-0 h-full w-1/3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-[loading_1.5s_ease-in-out_infinite]" />
-                </div>
-                <p className="text-xs text-blue-600 mt-3 text-center">
-                  Typically completes within 15-20 minutes
-                </p>
-              </div> */}
+              )}
 
-              {/* Save Button */}
+              {/* Submit button - disabled while submitting */}
               <button
-                className="group w-full py-3.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 relative overflow-hidden"
+                className={`group w-full py-3.5 px-6 ${
+                  isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                } text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2 relative overflow-hidden`}
                 onClick={handleSubmit}
+                disabled={isSubmitting}
               >
                 <div className="absolute inset-0" />
                 <FiCheckCircle className="w-5 h-5 relative z-10" />
-                <span className="relative z-10">Submit</span>
+                <span className="relative z-10">{isSubmitting ? 'Submitting...' : 'Submit'}</span>
               </button>
             </div>
           </div>
