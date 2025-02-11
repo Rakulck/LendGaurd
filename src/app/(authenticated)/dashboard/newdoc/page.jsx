@@ -6,7 +6,7 @@ import Breadcrumbs from "../../../../components/Breadcrumbs";
 // import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { FiUploadCloud, FiCheckCircle, FiAlertCircle, FiTrash2, FiFileText, FiDownload } from "react-icons/fi";
 import { useAuth } from '../../../../context/AuthContext';
-import { uploadFile , deleteFile, downloadFile } from '../../../../utils/supabaseBucket';
+import { uploadFile , deleteFile, downloadFile, downloadProcessedFile } from '../../../../utils/supabaseBucket';
 import { useRouter } from 'next/navigation';
 import { supabase } from "../../../../lib/supabase";
 
@@ -242,13 +242,22 @@ export default function NewDoc() {
   // Add download handler
   const handleDownload = async (file) => {
     try {
-      const data = await downloadFile(file.path);
+      // Get just the file name from the path
+      const originalFileName = file.name.split('/').pop(); // This removes any path and gets just the filename
+      
+      // Get the processed file name that matches the one in the bucket
+      // Example: if original is "Rent Roll_Marlon Manor_3..." it will look for that exact file
+      const processedFileName = originalFileName;
+      
+      console.log('Attempting to download:', processedFileName); // Debug log
+      
+      const data = await downloadProcessedFile(processedFileName);
       
       // Create download link
       const url = window.URL.createObjectURL(data);
       const a = document.createElement('a');
       a.href = url;
-      a.download = file.processedName || 'processed_file.csv';
+      a.download = processedFileName;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

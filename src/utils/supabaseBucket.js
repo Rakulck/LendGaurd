@@ -131,23 +131,44 @@ function getFileTypeFlags(fileName) {
   };
 }
 
+// /**
+//  * Downloads a file from Supabase Storage.
+//  * @param {string} filePath - The path of the file to download.
+//  * @returns {Promise<Blob>} The file data.
+//  */
+// export async function downloadFile(filePath) {
+//   try {
+//     console.log(`Downloading file: ${filePath}`);
+//     const { data, error } = await supabase.storage
+//       .from('user-deals')
+//       .download(filePath);
+
+//     if (error) throw new Error(`Download failed: ${error.message}`);
+
+//     return data;
+//   } catch (error) {
+//     console.error('Download error:', error);
+//     throw error;
+//   }
+// }
+
 /**
- * Downloads a file from Supabase Storage.
- * @param {string} filePath - The path of the file to download.
- * @returns {Promise<Blob>} The file data.
+ * Downloads a processed file from the processed-files bucket
+ * @param {string} fileName - The name of the processed file
+ * @returns {Promise<Blob>} The processed file data
  */
-export async function downloadFile(filePath) {
+export async function downloadProcessedFile(fileName) {
   try {
-    console.log(`Downloading file: ${filePath}`);
+    console.log(`Downloading processed file: ${fileName}`);
     const { data, error } = await supabase.storage
-      .from('user-deals')
-      .download(filePath);
+      .from('processed-files') // Your separate bucket for processed files
+      .download(fileName);
 
     if (error) throw new Error(`Download failed: ${error.message}`);
 
     return data;
   } catch (error) {
-    console.error('Download error:', error);
+    console.error('Download processed file error:', error);
     throw error;
   }
 }
