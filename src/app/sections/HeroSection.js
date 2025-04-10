@@ -3,7 +3,7 @@ import CTAButtons from "../../components/CTAButtons.jsx";
 
 export default function HeroSection() {
   return (
-    <div className="relative bg-[url('/hero_img.jpeg')] bg-cover bg-center">
+    <div className="relative bg-[url('/hero-1.jpg')] bg-cover bg-center">
       <div className="relative z-10">
         <Navbar />
         <section className="hero-section relative h-screen">

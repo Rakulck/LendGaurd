@@ -24,7 +24,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-full bg-white backdrop-blur-sm shadow-md z-50">
+    <nav className="fixed w-full bg-white/30 backdrop-blur-md shadow-md z-50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
@@ -40,28 +40,28 @@ export default function Navbar() {
               <a
                 href="#services-section"
                 onClick={scrollToServices}
-                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300 cursor-pointer"
+                className="text-2xl font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300 cursor-pointer"
               >
                 Services
               </a>
-               <Link href="/whyus" className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300">
+               <Link href="/whyus" className="text-2xl font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300">
                 Why LendGaurd
               </Link>
               <Link
                 href="/about"
-                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                className="text-2xl font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300"
               >
                 About
               </Link>
               <Link
                 href="/contact"
-                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                className="text-2xl font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300"
               >
                 Contact
               </Link>
               <Link
                 href="/login"
-                className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
+                className="text-2xl font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300"
               >
                Deal Room
               </Link>
@@ -108,31 +108,31 @@ export default function Navbar() {
           <a
             href="#services-section"
             onClick={scrollToServices}
-            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg cursor-pointer"
+            className="block px-3 py-2 text-lg font-medium text-gray-800 hover:text-blue-600 hover:bg-gray-50 rounded-lg cursor-pointer"
           >
             Services
           </a>
           <Link
             href="/whyus"
-            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
+            className="block px-3 py-2 text-lg font-medium text-gray-800 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
             Why LendGaurd
           </Link>
           <Link
             href="/about"
-            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
+            className="block px-3 py-2 text-lg font-medium text-gray-800 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
             About
           </Link>
           <Link
             href="/contact"
-            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
+            className="block px-3 py-2 text-lg font-medium text-gray-800 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
             Contact
           </Link>
           <Link
             href="/login"
-            className="block px-3 py-2 text-lg font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
+            className="block px-3 py-2 text-lg font-medium text-gray-800 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
             Login
           </Link>
