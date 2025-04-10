@@ -11,11 +11,11 @@ export default function HeroSection() {
             <div className="container mx-auto px-4 h-full flex items-center">
               <div className="max-w-2xl">
                 <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                  Fast, Secure Loan Pre-Screening & Sizing Solutions
+                  Fast, Secure Underwriting Solutions
                 </h1>
                 <p className="text-2xl text-white/90 mb-8 leading-relaxed">
-                  Streamline and grow your real estate lending operations with
-                  our expert offshore solutions. Our team delivers exceptional
+                  Streamline and grow your real estate operations with our
+                  expert analytics solutions. Our team delivers exceptional
                   talent and proven systems to help you scale efficiently and
                   improve profitability.
                 </p>

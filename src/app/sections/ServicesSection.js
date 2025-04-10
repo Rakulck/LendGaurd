@@ -35,7 +35,7 @@ export default function ServicesSection() {
                 </svg>
               </div>
               <h3 className="text-3xl font-bold mb-6 text-center text-gray-900">
-                GSE Loan Screening
+                Investor Management Portal
               </h3>
               <p className="text-xl text-gray-800 mb-8 leading-relaxed text-center transition-all duration-300 group-hover:text-gray-900">
                 Specialized pre-screening for government-sponsored enterprise
@@ -65,7 +65,7 @@ export default function ServicesSection() {
                 </svg>
               </div>
               <h3 className="text-3xl font-bold mb-6 text-center text-gray-900">
-                CMBS Loan Screening
+                Automated Underwriting
               </h3>
               <p className="text-xl text-gray-800 mb-8 leading-relaxed text-center transition-all duration-300 group-hover:text-gray-900">
                 Efficient, reliable, and secure pre-screening for CMBS loans.
@@ -93,7 +93,7 @@ export default function ServicesSection() {
                 </svg>
               </div>
               <h3 className="text-3xl font-bold mb-6 text-center text-gray-900">
-                Debt Fund Loan Screening
+                Deal Flow Management
               </h3>
               <p className="text-xl text-gray-800 mb-8 leading-relaxed text-center transition-all duration-300 group-hover:text-gray-900">
                 Flexible screening solutions for debt fund lenders.

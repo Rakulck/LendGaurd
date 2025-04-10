@@ -63,7 +63,7 @@ export default function Navbar() {
                 href="/login"
                 className="text-2xl font-medium text-gray-600 hover:text-blue-600 transition-colors duration-300"
               >
-                Login
+               Deal Room
               </Link>
             </div>
           </div>

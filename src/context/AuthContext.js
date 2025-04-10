@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../../supabaseClient";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
           error,
         } = await supabase.auth.getSession();
 
-
         if (error) throw error;
         setUser(session?.user ?? null);
       } catch (error) {
@@ -33,11 +32,12 @@ export const AuthProvider = ({ children }) => {
 
     initializeAuth();
 
-    const 
-     { data:  authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
 
     return () => {
       if (authListener?.subscription) {
@@ -47,7 +47,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Signup function
-  const signUp = async ({ email, password, firstName, lastName, phoneNumber, jobPosition, officeLocation }) => {
+  const signUp = async ({
+    email,
+    password,
+    firstName,
+    lastName,
+    phoneNumber,
+    jobPosition,
+    officeLocation,
+  }) => {
     setLoading(true);
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -60,8 +68,8 @@ export const AuthProvider = ({ children }) => {
             phone_number: phoneNumber,
             job_position: jobPosition,
             office_location: officeLocation,
-          }
-        }
+          },
+        },
       });
 
       if (error) throw error;
@@ -98,7 +106,7 @@ export const AuthProvider = ({ children }) => {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       setUser(null);
-      router.push('/login');
+      router.push("/login");
     } catch (error) {
       throw error;
     }
@@ -124,11 +132,7 @@ export const AuthProvider = ({ children }) => {
     resetPassword,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
