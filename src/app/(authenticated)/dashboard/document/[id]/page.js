@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import GoogleMapsProvider from "../../../../../components/GoogleMapsProvider";
 import MapComponent from "../../../../../components/MapComponent";
+import { FiFileText } from "react-icons/fi";
 // import Breadcrumbs from "../../../../../../../components/Breadcrumbs";
 
 export default function DealDetails() {
@@ -158,119 +159,140 @@ export default function DealDetails() {
 
   return (
     <GoogleMapsProvider>
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Property Image and Basic Info */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="relative h-[500px] rounded-xl overflow-hidden shadow-lg">
-              <img
-                src={deal.image}
-                alt={deal.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                {deal.name}
-              </h1>
-              <p className="text-xl text-gray-600 mb-6">{deal.address}</p>
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Units</p>
-                  <p className="text-2xl font-semibold">{deal.units}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Year Built</p>
-                  <p className="text-2xl font-semibold">{deal.yearBuilt}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Property Type</p>
-                  <p className="text-2xl font-semibold">{deal.propertyType}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Occupancy</p>
-                  <p className="text-2xl font-semibold">
-                    {deal.financials.occupancy}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Description and Amenities */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Description
+      <div className="min-h-screen bg-white py-8 px-20">
+        <div className="max-w-full mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            {/* Required Documents Sidebar */}
+            <div className="lg:col-span-1">
+              <h2 className="text-2xl font-semibold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Required Documents
               </h2>
-              <p className="text-gray-600 leading-relaxed">
-                {deal.description}
-              </p>
-            </div>
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Amenities
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                {deal.amenities.map((amenity, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <svg
-                      className="w-5 h-5 text-blue-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <span className="text-gray-600">{amenity}</span>
-                  </div>
+              <ul className="space-y-4">
+                {[
+                  { id: 1, name: "Property Appraisal" },
+                  { id: 2, name: "Title Deed" },
+                  { id: 3, name: "Financial Statements" },
+                  { id: 4, name: "Insurance Documents" },
+                  { id: 5, name: "Environmental Reports" },
+                  { id: 6, name: "Lease Agreements" },
+                  { id: 7, name: "Tax Returns" },
+                  { id: 8, name: "Building Permits" },
+                ].map((doc) => (
+                  <li
+                    key={doc.id}
+                    className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-sm"
+                  >
+                    <FiFileText className="text-gray-600 w-6 h-6" />
+                    <span className="text-gray-800 font-medium">
+                      {doc.name}
+                    </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
-          </div>
 
-          {/* Financials and Map */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Financial Overview
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Purchase Price</p>
-                  <p className="text-xl font-semibold">
-                    {deal.financials.purchasePrice}
-                  </p>
+            {/* Main Content */}
+            <div className="lg:col-span-4">
+              {/* Header with Deal Name */}
+              <div className="mb-8">
+                <h1 className="text-4xl font-extrabold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent tracking-tight">
+                  {deal.name}
+                </h1>
+                <p className="text-xl text-gray-600 mt-2">{deal.address}</p>
+              </div>
+
+              {/* Property Image and Basic Info */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div className="relative h-[500px] rounded-xl overflow-hidden shadow-lg">
+                  <img
+                    src={deal.image}
+                    alt={deal.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Cap Rate</p>
-                  <p className="text-xl font-semibold">
-                    {deal.financials.capRate}
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">NOI</p>
-                  <p className="text-xl font-semibold">{deal.financials.noi}</p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Occupancy</p>
-                  <p className="text-xl font-semibold">
-                    {deal.financials.occupancy}
-                  </p>
+                <div className="space-y-8">
+                  <div className="bg-white rounded-xl p-8 shadow-lg">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                      Description
+                    </h2>
+                    <p className="text-gray-600 leading-relaxed">
+                      {deal.description}
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-8 shadow-lg">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                      Amenities
+                    </h2>
+                    <div className="grid grid-cols-2 gap-4">
+                      {deal.amenities.map((amenity, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center space-x-2"
+                        >
+                          <svg
+                            className="w-5 h-5 text-gray-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                          <span className="text-gray-600">{amenity}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="bg-white rounded-xl p-8 shadow-lg">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Location
-              </h2>
-              <div className="h-[400px] rounded-lg overflow-hidden">
-                <MapComponent address={deal.address} />
+
+              {/* Financial Overview and Map */}
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-lg">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    Financial Overview
+                  </h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-500">Purchase Price</p>
+                      <p className="text-xl font-semibold">
+                        {deal.financials.purchasePrice}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-500">Cap Rate</p>
+                      <p className="text-xl font-semibold">
+                        {deal.financials.capRate}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-500">NOI</p>
+                      <p className="text-xl font-semibold">
+                        {deal.financials.noi}
+                      </p>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm text-gray-500">Occupancy</p>
+                      <p className="text-xl font-semibold">
+                        {deal.financials.occupancy}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-lg">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    Location
+                  </h2>
+                  <div className="h-[400px] w-full rounded-lg overflow-hidden">
+                    <MapComponent address={deal.address} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

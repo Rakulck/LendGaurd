@@ -18,9 +18,9 @@ export default function DealRoom() {
   const [files, setFiles] = useState([
     {
       id: 1,
-      name: "The Manhattan Heights",
-      address: "123 Main St, New York, NY",
-      units: 24,
+      name: "The Next Chapter",
+      address: "75 E Armory Ave, Champaign, IL",
+      units: 4,
       image:
         "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
     },

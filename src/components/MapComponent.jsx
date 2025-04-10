@@ -55,6 +55,7 @@ const MapComponent = ({ address }) => {
             });
             setZoom(15);
             setError(null);
+            console.log('Full address geocoding result:', fullAddressResponse);
             return;
           }
         } catch (error) {
@@ -99,6 +100,7 @@ const MapComponent = ({ address }) => {
               });
               setZoom(12);
               setError(`Showing approximate location for ${cityPart}`);
+              console.log('City geocoding result:', cityResponse);
               return;
             }
           }
@@ -127,6 +129,7 @@ const MapComponent = ({ address }) => {
             });
             setZoom(6);
             setError(`Showing approximate location for ${state}`);
+            console.log('State geocoding result:', stateResponse);
           }
         } catch (error) {
           console.error('State geocoding error:', error);
