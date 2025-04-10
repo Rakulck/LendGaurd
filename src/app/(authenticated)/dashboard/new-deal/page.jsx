@@ -17,21 +17,27 @@ export default function NewDeal() {
     yearBuilt: "",
     propertyType: "",
     description: "",
+    offeringMemorandum: null,
     rentRoll: null,
     t12: null,
-    photos: [],
-    survey: null,
-    appraisal: null,
+    leaseAbstracts: null,
+    sitePlans: null,
     environmental: null,
+    engineering: null,
+    underwriting: null,
+    purchaseAgreement: null
   });
 
   const [uploadedFiles, setUploadedFiles] = useState({
+    offeringMemorandum: null,
     rentRoll: null,
     t12: null,
-    photos: [],
-    survey: null,
-    appraisal: null,
+    leaseAbstracts: null,
+    sitePlans: null,
     environmental: null,
+    engineering: null,
+    underwriting: null,
+    purchaseAgreement: null
   });
 
   const [isProcessing, setIsProcessing] = useState(false);
@@ -40,12 +46,15 @@ export default function NewDeal() {
   const [isLoading, setIsLoading] = useState(false);
 
   const documentTypes = [
-    { id: "rentRoll", name: "Rent Roll Document" },
-    { id: "t12", name: "T12 Financials" },
-    { id: "photos", name: "Property Photos" },
-    { id: "survey", name: "Property Survey" },
-    { id: "appraisal", name: "Property Appraisal" },
-    { id: "environmental", name: "Environmental Report" },
+    { id: "offeringMemorandum", name: "Offering Memorandum (OM)" },
+    { id: "rentRoll", name: "Rent Roll" },
+    { id: "t12", name: "Trailing 12 (T-12)" },
+    { id: "leaseAbstracts", name: "Lease Abstracts" },
+    { id: "sitePlans", name: "Site Plans & Floor Plates" },
+    { id: "environmental", name: "Environmental Reports" },
+    { id: "engineering", name: "Engineering Reports" },
+    { id: "underwriting", name: "Argus/Excel Underwriting Models" },
+    { id: "purchaseAgreement", name: "Purchase & Sale Agreement" }
   ];
 
   const handleChange = (e) => {
@@ -301,10 +310,10 @@ export default function NewDeal() {
                     <div className="mb-4 p-4 bg-indigo-50 rounded-lg border border-indigo-100">
                       <div className="flex items-center space-x-3">
                         <FiFileText className="w-6 h-6 text-indigo-600" />
-                        <span className="text-indigo-700 font-medium">output.pdf</span>
+                        <span className="text-indigo-700 font-medium">Next Chapter-UW.xlsx</span>
                         <a
-                          href="/output.pdf"
-                          download
+                          href="/Next_Chapter-UW.xlsx"
+                          download="Next_Chapter-UW.xlsx"
                           className="ml-auto flex items-center space-x-2 px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200"
                         >
                           <FiDownload className="w-4 h-4" />

@@ -9,6 +9,8 @@ import RightPanel from '../../../components/RightPanel';
 import FooterSection from '../../sections/FooterSection';
 import GoogleMapsProvider from '../../../components/GoogleMapsProvider';
 
+
+
 export default function DealRoom() {
   const supabase = createClientComponentClient();
   const router = useRouter();
