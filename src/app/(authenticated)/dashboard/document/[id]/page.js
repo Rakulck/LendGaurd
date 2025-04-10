@@ -2,95 +2,280 @@
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import GoogleMapsProvider from "../../../../../components/GoogleMapsProvider";
+import MapComponent from "../../../../../components/MapComponent";
 // import Breadcrumbs from "../../../../../../../components/Breadcrumbs";
 
-export default function DocumentDetails() {
+export default function DealDetails() {
   const params = useParams();
-  const documentId = params.id;
-  const [documentName, setDocumentName] = useState("");
-  // const [address, setAddress] = useState("");
-  const [dealName, setDealName] = useState("");
-  const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
-  const [createdAt, setCreatedAt] = useState(new Date().toLocaleString());
+  const supabase = createClientComponentClient();
+  const [deal, setDeal] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const breadcrumbItems = [
-    { label: "Menu", href: "/dashboard" },
-    { label: "Document", href: `/client/document/${documentId}` },
-  ];
+  // Sample deal data - in a real app, this would come from your database
+  const sampleDeals = {
+    1: {
+      id: 1,
+      name: "The Manhattan Heights",
+      address: "123 Main St, New York, NY",
+      units: 24,
+      image:
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
+      description:
+        "A luxurious residential complex in the heart of Manhattan, offering stunning views and premium amenities.",
+      yearBuilt: 2015,
+      propertyType: "Apartment Complex",
+      amenities: [
+        "Swimming Pool",
+        "Fitness Center",
+        "24/7 Security",
+        "Parking Garage",
+      ],
+      financials: {
+        purchasePrice: "$25,000,000",
+        capRate: "6.5%",
+        noi: "$1,625,000",
+        occupancy: "95%",
+      },
+    },
+    2: {
+      id: 2,
+      name: "Park Avenue Residences",
+      address: "456 Park Ave, Los Angeles, CA",
+      units: 36,
+      image:
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
+      description:
+        "Modern living spaces with state-of-the-art facilities in the vibrant Park Avenue district.",
+      yearBuilt: 2018,
+      propertyType: "Mixed-Use Development",
+      amenities: [
+        "Rooftop Garden",
+        "Business Center",
+        "Concierge Service",
+        "EV Charging",
+      ],
+      financials: {
+        purchasePrice: "$32,000,000",
+        capRate: "7.2%",
+        noi: "$2,304,000",
+        occupancy: "92%",
+      },
+    },
+    3: {
+      id: 3,
+      name: "Ocean View Apartments",
+      address: "789 Ocean Dr, Miami, FL",
+      units: 48,
+      image:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
+      description:
+        "Beachfront property offering panoramic ocean views and resort-style living.",
+      yearBuilt: 2020,
+      propertyType: "Luxury Condominium",
+      amenities: ["Private Beach Access", "Spa", "Restaurant", "Marina"],
+      financials: {
+        purchasePrice: "$45,000,000",
+        capRate: "5.8%",
+        noi: "$2,610,000",
+        occupancy: "98%",
+      },
+    },
+    4: {
+      id: 4,
+      name: "Lake Shore Towers",
+      address: "321 Lake Shore Dr, Chicago, IL",
+      units: 60,
+      image:
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
+      description:
+        "Iconic high-rise offering premium lakefront living in downtown Chicago.",
+      yearBuilt: 2016,
+      propertyType: "High-Rise Residential",
+      amenities: [
+        "Indoor Pool",
+        "Sky Lounge",
+        "Conference Rooms",
+        "Valet Parking",
+      ],
+      financials: {
+        purchasePrice: "$38,000,000",
+        capRate: "6.8%",
+        noi: "$2,584,000",
+        occupancy: "94%",
+      },
+    },
+    5: {
+      id: 5,
+      name: "Market Square Apartments",
+      address: "654 Market St, San Francisco, CA",
+      units: 42,
+      image:
+        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
+      description:
+        "Contemporary living spaces in the heart of San Francisco's financial district.",
+      yearBuilt: 2019,
+      propertyType: "Urban Residential",
+      amenities: [
+        "Fitness Center",
+        "Co-working Space",
+        "Bike Storage",
+        "Pet Spa",
+      ],
+      financials: {
+        purchasePrice: "$35,000,000",
+        capRate: "5.5%",
+        noi: "$1,925,000",
+        occupancy: "96%",
+      },
+    },
+  };
 
   useEffect(() => {
-    // Replace this with your actual document data fetching logic
-    const fetchDocumentDetails = () => {
-      // Temporary example - replace with real data fetch
-      setDocumentName(`${documentId}`);
-      // Add fetching of address and deal name here
-    };
+    // In a real app, you would fetch the deal data from your database
+    const dealId = parseInt(params.id);
+    const dealData = sampleDeals[dealId];
+    setDeal(dealData);
+    setLoading(false);
+  }, [params.id]);
 
-    fetchDocumentDetails();
-    document.title = `LenGuard - ${documentName}`;
-  }, [documentName]);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (!deal) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-2xl text-gray-600">Deal not found</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Breadcrumbs items={breadcrumbItems} />
-        
-        <div className="mt-8 max-w-3xl mx-auto">
-          <div className="bg-white shadow-sm rounded-lg p-6 mb-8">
-            <div className="space-y-6">
-              <div>
-                <label htmlFor="dealName" className="block text-sm font-medium text-gray-700 mb-1">
-                  Deal Name
-                </label>
-                <input
-                  type="text"
-                  id="dealName"
-                  placeholder="Enter deal name"
-                  value={dealName}
-                  onChange={(e) => setDealName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg transition-colors"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
-                  Property Address
-                </label>
-                <input
-                  type="text"
-                  id="address"
-                  placeholder="Enter property address"
-                  // value={address}
-                  // onChange={(e) => setAddress(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-lg transition-colors"
-                />
+    <GoogleMapsProvider>
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Property Image and Basic Info */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div className="relative h-[500px] rounded-xl overflow-hidden shadow-lg">
+              <img
+                src={deal.image}
+                alt={deal.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                {deal.name}
+              </h1>
+              <p className="text-xl text-gray-600 mb-6">{deal.address}</p>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Units</p>
+                  <p className="text-2xl font-semibold">{deal.units}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Year Built</p>
+                  <p className="text-2xl font-semibold">{deal.yearBuilt}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Property Type</p>
+                  <p className="text-2xl font-semibold">{deal.propertyType}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Occupancy</p>
+                  <p className="text-2xl font-semibold">
+                    {deal.financials.occupancy}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          {documentId && (
-            <div className="bg-white shadow-sm rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6 pb-4 border-b border-gray-200">
-                Document Details
+          {/* Description and Amenities */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Description
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">Document ID</h3>
-                  <p className="text-lg font-medium text-gray-900">{documentId}</p>
+              <p className="text-gray-600 leading-relaxed">
+                {deal.description}
+              </p>
+            </div>
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Amenities
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                {deal.amenities.map((amenity, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <svg
+                      className="w-5 h-5 text-blue-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span className="text-gray-600">{amenity}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Financials and Map */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Financial Overview
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Purchase Price</p>
+                  <p className="text-xl font-semibold">
+                    {deal.financials.purchasePrice}
+                  </p>
                 </div>
-                <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">Created At</h3>
-                  <p className="text-lg font-medium text-gray-900">{createdAt}</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Cap Rate</p>
+                  <p className="text-xl font-semibold">
+                    {deal.financials.capRate}
+                  </p>
                 </div>
-                <div className="md:col-span-2">
-                  <h3 className="text-sm font-medium text-gray-500 mb-1">Last Updated</h3>
-                  <p className="text-lg font-medium text-gray-900">{timestamp}</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">NOI</p>
+                  <p className="text-xl font-semibold">{deal.financials.noi}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">Occupancy</p>
+                  <p className="text-xl font-semibold">
+                    {deal.financials.occupancy}
+                  </p>
                 </div>
               </div>
             </div>
-          )}
+            <div className="bg-white rounded-xl p-8 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Location
+              </h2>
+              <div className="h-[400px] rounded-lg overflow-hidden">
+                <MapComponent address={deal.address} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </GoogleMapsProvider>
   );
 }

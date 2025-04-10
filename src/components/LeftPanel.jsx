@@ -1,6 +1,6 @@
 import { FaSearch, FaBuilding } from "react-icons/fa";
 
-export default function LeftPanel({ files, searchTerm, onDelete, onEdit, onDocumentClick, onSearch }) {
+export default function LeftPanel({ files, searchTerm, onDelete, onEdit, onCardClick, onDealRoomClick, onSearch }) {
   const filteredFiles = files.filter((file) =>
     file.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -28,7 +28,7 @@ export default function LeftPanel({ files, searchTerm, onDelete, onEdit, onDocum
             <div 
               key={file.id} 
               className="flex flex-col p-4 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200"
-              onClick={() => onDocumentClick(file.id)}
+              onClick={() => onCardClick(file.id)}
             >
               <div className="flex items-center gap-4 mb-2">
                 <img src={file.image} alt="Property" className="w-32 h-32 rounded-lg object-cover" />
@@ -42,7 +42,7 @@ export default function LeftPanel({ files, searchTerm, onDelete, onEdit, onDocum
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onDocumentClick(file.id);
+                    onDealRoomClick(file.id);
                   }}
                   className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors"
                 >

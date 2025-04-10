@@ -3,54 +3,58 @@
 import { useState, useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import LeftPanel from '../../../components/LeftPanel';
-import RightPanel from '../../../components/RightPanel';
-import FooterSection from '../../sections/FooterSection';
-import GoogleMapsProvider from '../../../components/GoogleMapsProvider';
-
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import LeftPanel from "../../../components/LeftPanel";
+import RightPanel from "../../../components/RightPanel";
+import FooterSection from "../../sections/FooterSection";
+import GoogleMapsProvider from "../../../components/GoogleMapsProvider";
 
 export default function DealRoom() {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const [userName, setUserName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDeal, setSelectedDeal] = useState(null);
   const [files, setFiles] = useState([
-    { 
-      id: 1, 
+    {
+      id: 1,
       name: "The Manhattan Heights",
       address: "123 Main St, New York, NY",
       units: 24,
-      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+      image:
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
     },
-    { 
-      id: 2, 
+    {
+      id: 2,
       name: "Park Avenue Residences",
       address: "456 Park Ave, Los Angeles, CA",
       units: 36,
-      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+      image:
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
     },
-    { 
-      id: 3, 
+    {
+      id: 3,
       name: "Ocean View Apartments",
       address: "789 Ocean Dr, Miami, FL",
       units: 48,
-      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+      image:
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
     },
-    { 
-      id: 4, 
+    {
+      id: 4,
       name: "Lake Shore Towers",
       address: "321 Lake Shore Dr, Chicago, IL",
       units: 60,
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+      image:
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
     },
-    { 
-      id: 5, 
+    {
+      id: 5,
       name: "Market Square Apartments",
       address: "654 Market St, San Francisco, CA",
       units: 42,
-      image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+      image:
+        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
     },
   ]);
 
@@ -66,8 +70,13 @@ export default function DealRoom() {
     router.push("/dashboard/new-deal");
   };
 
-  const handleDocumentClick = (id) => {
-    window.open(`/dashboard/document/${id}`, '_blank');
+  const handleCardClick = (id) => {
+    const deal = files.find((file) => file.id === id);
+    setSelectedDeal(deal);
+  };
+
+  const handleDealRoomClick = (id) => {
+    window.open(`/dashboard/document/${id}`, "_blank");
   };
 
   const handleSearch = (term) => {
@@ -77,19 +86,21 @@ export default function DealRoom() {
   useEffect(() => {
     const fetchUserName = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (user) {
           const { data, error } = await supabase
-            .from('profiles')
-            .select('first_name')
-            .eq('id', user.id)
+            .from("profiles")
+            .select("first_name")
+            .eq("id", user.id)
             .single();
 
           if (error) throw error;
           if (data) setUserName(data.first_name);
         }
       } catch (error) {
-        console.error('Error fetching user name:', error);
+        console.error("Error fetching user name:", error);
       }
     };
 
@@ -116,15 +127,16 @@ export default function DealRoom() {
 
           {/* Main Content */}
           <div className="flex">
-            <LeftPanel 
+            <LeftPanel
               files={files}
               searchTerm={searchTerm}
               onDelete={handleDelete}
               onEdit={handleEdit}
-              onDocumentClick={handleDocumentClick}
+              onCardClick={handleCardClick}
+              onDealRoomClick={handleDealRoomClick}
               onSearch={handleSearch}
             />
-            <RightPanel />
+            <RightPanel selectedDeal={selectedDeal} />
           </div>
         </div>
       </div>
