@@ -1,90 +1,56 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaSearch, FaPlus, FaEllipsisV } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import LeftPanel from '../../../components/LeftPanel';
+import RightPanel from '../../../components/RightPanel';
+import FooterSection from '../../sections/FooterSection';
+import GoogleMapsProvider from '../../../components/GoogleMapsProvider';
 
-const FileItem = ({ file, onEdit, onDelete, onClick, isLast }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  return (
-    <>
-      <div
-        className="flex items-center justify-between p-5 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 transition-all cursor-pointer"
-        onClick={(e) => {
-          if (e.target === e.currentTarget || e.target.tagName === "SPAN") {
-            onClick(file.id);
-          }
-        }}
-      >
-        <span className="text-xl font-semibold text-gray-800">{file.name}</span>
-        <div className="flex gap-4">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit(file.id);
-            }}
-            className="text-blue-500 hover:text-blue-700 text-xl"
-          >
-            <FaEdit />
-          </button>
-          <div className="relative">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowDropdown(!showDropdown);
-              }}
-              className="text-gray-500 hover:text-gray-700 text-xl"
-            >
-              <FaEllipsisV />
-            </button>
-            {showDropdown && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white border border-gray-200 z-10">
-                <div className="py-1">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(file.id);
-                      setShowDropdown(false);
-                    }}
-                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 flex items-center gap-2"
-                  >
-                    Delete <FaTrash />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      {/* Spacing between documents */}
-      {!isLast && <div className="my-3"></div>}
-    </>
-  );
-};
-
-export default function Client() {
+export default function DealRoom() {
   const supabase = createClientComponentClient();
   const router = useRouter();
   const [userName, setUserName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [files, setFiles] = useState([
-    { id: 1, name: "document1.pdf" },
-    { id: 2, name: "report2023.doc" },
-    { id: 3, name: "report2023.doc" },
-    { id: 4, name: "report2023.doc" },
-    { id: 5, name: "report2023.doc" },
-    { id: 6, name: "report2023.doc" },
-    { id: 7, name: "report2023.doc" },
-    { id: 8, name: "report2023.doc" },
-    { id: 9, name: "report2023.doc" },
-    { id: 10, name: "report2023.doc" },
+    { 
+      id: 1, 
+      name: "The Manhattan Heights",
+      address: "123 Main St, New York, NY",
+      units: 24,
+      image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+    },
+    { 
+      id: 2, 
+      name: "Park Avenue Residences",
+      address: "456 Park Ave, Los Angeles, CA",
+      units: 36,
+      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+    },
+    { 
+      id: 3, 
+      name: "Ocean View Apartments",
+      address: "789 Ocean Dr, Miami, FL",
+      units: 48,
+      image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+    },
+    { 
+      id: 4, 
+      name: "Lake Shore Towers",
+      address: "321 Lake Shore Dr, Chicago, IL",
+      units: 60,
+      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+    },
+    { 
+      id: 5, 
+      name: "Market Square Apartments",
+      address: "654 Market St, San Francisco, CA",
+      units: 42,
+      image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80"
+    },
   ]);
-
-  const filteredFiles = files.filter((file) =>
-    file.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleDelete = (id) => {
     setFiles(files.filter((file) => file.id !== id));
@@ -95,11 +61,15 @@ export default function Client() {
   };
 
   const handleAddNew = () => {
-    router.push("/dashboard/newdoc");
+    router.push("/dashboard/new-deal");
   };
 
   const handleDocumentClick = (id) => {
     window.open(`/dashboard/document/${id}`, '_blank');
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
   };
 
   useEffect(() => {
@@ -125,53 +95,38 @@ export default function Client() {
   }, []);
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6 border-b-2 border-gray-200 pb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Client Dashboard</h1>
-          {/* Add New Deal Button */}
-          <button
-            onClick={handleAddNew}
-            className="bg-blue-600 text-white flex items-center justify-center gap-2 hover:bg-blue-700 text-lg font-semibold px-6 py-3 rounded-lg transition-colors border-2 border-blue-600 hover:border-blue-700"
-          >
-            Add New Deal <FaPlus />
-          </button>
-        </div>
-
-        {/* Search Bar */}
-        <div className="mb-8">
-          <div className="relative w-full">
-            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
-            <input
-              type="text"
-              placeholder="Search files..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 p-4 border-2 border-gray-300 rounded-lg text-lg focus:outline-none focus:border-blue-500"
-            />
+    <GoogleMapsProvider>
+      <div className="p-10 bg-gray-50 min-h-screen flex flex-col mb-20">
+        <div className="mx-auto flex-1 w-full">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6 border-b-2 border-gray-200 pb-6">
+            <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-600 tracking-tight">
+              LendGuard Deal Room
+            </h1>
+            {/* Add New Deal Button */}
+            <button
+              onClick={handleAddNew}
+              className="bg-gradient-to-r from-black via-gray-900 to-gray-400 text-white flex items-center justify-center gap-2 hover:from-black hover:via-gray-800 hover:to-gray-300 text-lg font-semibold px-6 py-3 rounded-lg transition-colors border-2 border-transparent hover:border-gray-700"
+            >
+              Add New Deal <FaPlus />
+            </button>
           </div>
-        </div>
 
-        {/* Files List */}
-        <div className="bg-white rounded-lg border-2 shadow-sm p-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">Your Files</h2>
-          <div className="space-y-4 border-2 border-blue rounded-lg p-4">
-            {filteredFiles.map((file, index) => (
-              <FileItem
-                className="border-2 border-blue rounded-lg p-4" 
-                key={file.id}
-                file={file}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onClick={handleDocumentClick}
-                isLast={index === filteredFiles.length - 1}
-              />
-
-            ))}
+          {/* Main Content */}
+          <div className="flex">
+            <LeftPanel 
+              files={files}
+              searchTerm={searchTerm}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+              onDocumentClick={handleDocumentClick}
+              onSearch={handleSearch}
+            />
+            <RightPanel />
           </div>
         </div>
       </div>
-    </div>
+      <FooterSection />
+    </GoogleMapsProvider>
   );
 }

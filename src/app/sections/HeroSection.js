@@ -3,7 +3,7 @@ import CTAButtons from "../../components/CTAButtons.jsx";
 
 export default function HeroSection() {
   return (
-    <div className="relative bg-[url('/bg_image.jpg')] bg-cover bg-center">
+    <div className="relative bg-[url('/hero_img.jpeg')] bg-cover bg-center">
       <div className="relative z-10">
         <Navbar />
         <section className="hero-section relative h-screen">
@@ -11,7 +11,7 @@ export default function HeroSection() {
             <div className="container mx-auto px-4 h-full flex items-center">
               <div className="max-w-2xl">
                 <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                  Fast, Secure Underwriting Solutions
+                  Fast, Secure Deal Flow Solutions
                 </h1>
                 <p className="text-2xl text-white/90 mb-8 leading-relaxed">
                   Streamline and grow your real estate operations with our
