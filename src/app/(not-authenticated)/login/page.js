@@ -45,7 +45,7 @@ export default function AuthPage() {
           <div
             className="h-full w-full"
             style={{
-              backgroundImage: `url('/hero-2.jpg')`,
+              backgroundImage: `url('/deal.jpeg')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",

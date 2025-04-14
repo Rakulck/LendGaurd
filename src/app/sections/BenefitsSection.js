@@ -38,7 +38,7 @@ export default function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                      ⚡️ Speed
+                      Speed
                     </h3>
                     <p className="text-xl text-gray-800 leading-relaxed transition-all duration-300 group-hover:text-gray-900">
                       Launch deals faster with automated underwriting, built-in
@@ -72,7 +72,7 @@ export default function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                      💰 Affordability
+                      Affordability
                     </h3>
                     <p className="text-xl text-gray-800 leading-relaxed transition-all duration-300 group-hover:text-gray-900">
                       An all-in-one solution that replaces 4+ platforms at a
@@ -106,7 +106,7 @@ export default function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                      🔒 Security
+                      Security
                     </h3>
                     <p className="text-xl text-gray-800 leading-relaxed transition-all duration-300 group-hover:text-gray-900">
                       Your data and documents are protected with bank-grade

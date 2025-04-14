@@ -21,32 +21,32 @@ export default function WhyUs() {
 
   const benefits = [
     {
-      title: "🧠 Industry Knowledge",
+      title: " Industry Knowledge",
       description:
         "Our team blends deep real estate knowledge with modern tech to support sponsors and investors through every stage of the deal lifecycle — from underwriting to investor relations. We build tools that are precise, compliant, and built for the realities of dealmaking.",
     },
     {
-      title: "🧩 Tailored Solutions",
+      title: " Tailored Solutions",
       description:
         "No two deals — or sponsors — are alike. Our platform adapts to your structure, goals, and workflow needs. Whether you're raising capital or reviewing underwriting assumptions, we make the process fit you, not the other way around.",
     },
     {
-      title: "💻 Cutting-Edge Technology",
+      title: " Cutting-Edge Technology",
       description:
         "We leverage cutting-edge automation to streamline underwriting, legal documentation, and investor onboarding — dramatically reducing the time it takes to launch, close, and report on deals.",
     },
     {
-      title: "📊 Actionable Intelligence",
+      title: "Actionable Intelligence",
       description:
         "Go beyond dashboards. Our analytics engine provides real-time insights into deal performance, investor engagement, and underwriting outcomes, helping you make smarter, faster decisions.",
     },
     {
-      title: "🛡️ Enterprise-Grade Security",
+      title: "Enterprise-Grade Security",
       description:
         "Trust is everything in real estate. Our platform is built on bank-grade encryption and privacy-first architecture, with compliance certifications including SOC 2 Type II, ISO/IEC 27001, and PCIDSS.",
     },
     {
-      title: "🏆 Obsessed with Quality",
+      title: "Obsessed with Quality",
       description:
         "We’re committed to precision, transparency, and client success. Every feature we ship is built carefully because your credibility with investors depends on what happens behind the scenes.",
     },
@@ -79,7 +79,7 @@ export default function WhyUs() {
                 <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(59,130,246,0.2)] transition-all duration-300">
                   <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg px-6 py-3 inline-block mb-8 shadow-lg">
                     <h2 className="text-2xl font-bold">
-                      TThe Partner You Can Rely On
+                      The Partner You Can Rely On
                     </h2>
                   </div>
                   <p className="text-2xl leading-relaxed text-gray-800 transition-all duration-300 group-hover:text-gray-900">
