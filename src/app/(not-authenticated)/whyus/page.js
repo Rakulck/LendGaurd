@@ -79,7 +79,7 @@ export default function WhyUs() {
                 <div className="relative bg-white/70 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_20px_40px_rgb(59,130,246,0.2)] transition-all duration-300">
                   <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg px-6 py-3 inline-block mb-8 shadow-lg">
                     <h2 className="text-2xl font-bold">
-                      The Partner You Can Rely On
+                      The Partner You can Trust
                     </h2>
                   </div>
                   <p className="text-2xl leading-relaxed text-gray-800 transition-all duration-300 group-hover:text-gray-900">
