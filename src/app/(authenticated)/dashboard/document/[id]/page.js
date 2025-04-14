@@ -18,13 +18,18 @@ export default function DealDetails() {
   const sampleDeals = {
     1: {
       id: 1,
-      name: "The Manhattan Heights",
-      address: "123 Main St, New York, NY",
-      units: 24,
-      image:
-        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
+      name: "The Next Chapter",
+      address: "75 E Armory Ave, Champaign, IL",
+      addresses: [
+        "75 E Armory Ave, Champaign, IL",
+        "305 E Daniel St, Champaign, IL",
+        "507 S 2nd St, Champaign, IL",
+        "901 Western Ave, Urbana, IL",
+      ],
+      units: 4,
+      image: "/12343.jpg",
       description:
-        "A luxurious residential complex in the heart of Manhattan, offering stunning views and premium amenities.",
+        "Next Chapter is a thoughtfully designed multifamily portfolio in Urbana, offering modern, affordable living spaces tailored for students and young professionals. Strategically located near key transit and university hubs, it blends comfort, connectivity, and community living..",
       yearBuilt: 2015,
       propertyType: "Apartment Complex",
       amenities: [
@@ -44,6 +49,12 @@ export default function DealDetails() {
       id: 2,
       name: "Park Avenue Residences",
       address: "456 Park Ave, Los Angeles, CA",
+      addresses: [
+        "234 Oak St, San Francisco, CA",
+        "567 Pine St, Seattle, WA",
+        "890 Birch Rd, Austin, TX",
+        "112 Cedar Ln, Boston, MA",
+      ],
       units: 36,
       image:
         "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
@@ -68,6 +79,12 @@ export default function DealDetails() {
       id: 3,
       name: "Ocean View Apartments",
       address: "789 Ocean Dr, Miami, FL",
+      addresses: [
+        "345 Spruce St, Denver, CO",
+        "678 Willow Ave, Portland, OR",
+        "901 Aspen Blvd, Las Vegas, NV",
+        "213 Redwood Dr, Phoenix, AZ",
+      ],
       units: 48,
       image:
         "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
@@ -87,6 +104,12 @@ export default function DealDetails() {
       id: 4,
       name: "Lake Shore Towers",
       address: "321 Lake Shore Dr, Chicago, IL",
+      addresses: [
+        "456 Cypress St, Dallas, TX",
+        "789 Fir Ln, Atlanta, GA",
+        "1010 Palm Ave, Orlando, FL",
+        "1111 Poplar St, Charlotte, NC",
+      ],
       units: 60,
       image:
         "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
@@ -111,6 +134,12 @@ export default function DealDetails() {
       id: 5,
       name: "Market Square Apartments",
       address: "654 Market St, San Francisco, CA",
+      addresses: [
+        "222 Maple St, Houston, TX",
+        "333 Birch Blvd, Philadelphia, PA",
+        "444 Cedar Ave, San Diego, CA",
+        "555 Spruce Ln, San Jose, CA",
+      ],
       units: 42,
       image:
         "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&h=1440&q=80",
@@ -171,7 +200,7 @@ export default function DealDetails() {
                 {[
                   { id: 1, name: "Property Appraisal" },
                   { id: 2, name: "Title Deed" },
-                  { id: 3, name: "Financial Statements" },
+                  { id: 3, name: "Financial Documents" },
                   { id: 4, name: "Insurance Documents" },
                   { id: 5, name: "Environmental Reports" },
                   { id: 6, name: "Lease Agreements" },
@@ -210,22 +239,22 @@ export default function DealDetails() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div className="space-y-8">
+                <div className="space-y-8 mt-20">
                   <div className="bg-white rounded-xl p-8 shadow-lg">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-4xl font-bold text-gray-900 mb-4">
                       Description
                     </h2>
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="text-gray-600 text-xl leading-relaxed">
                       {deal.description}
                     </p>
                   </div>
 
-                  <div className="bg-white rounded-xl p-8 shadow-lg">
+                  {/* <div className="bg-white rounded-xl p-8 shadow-lg">
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                      Amenities
+                      Addresses
                     </h2>
                     <div className="grid grid-cols-2 gap-4">
-                      {deal.amenities.map((amenity, index) => (
+                      {deal.addresses.map((address, index) => (
                         <div
                           key={index}
                           className="flex items-center space-x-2"
@@ -243,55 +272,46 @@ export default function DealDetails() {
                               d="M5 13l4 4L19 7"
                             />
                           </svg>
-                          <span className="text-gray-600">{amenity}</span>
+                          <span className="text-gray-600">{address}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
-              {/* Financial Overview and Map */}
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-lg">
+              {/* Addresses and Map */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Addresses */}
+                <div className="bg-white rounded-xl p-8 shadow-lg">
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Financial Overview
+                    Addresses
                   </h2>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-500">Purchase Price</p>
-                      <p className="text-xl font-semibold">
-                        {deal.financials.purchasePrice}
-                      </p>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-500">Cap Rate</p>
-                      <p className="text-xl font-semibold">
-                        {deal.financials.capRate}
-                      </p>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-500">NOI</p>
-                      <p className="text-xl font-semibold">
-                        {deal.financials.noi}
-                      </p>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <p className="text-sm text-gray-500">Occupancy</p>
-                      <p className="text-xl font-semibold">
-                        {deal.financials.occupancy}
-                      </p>
-                    </div>
+                    {deal.addresses.map((address, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <svg
+                          className="w-5 h-5 text-gray-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <span className="text-gray-600">{address}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                <div className="lg:col-span-2 bg-white rounded-xl p-8 shadow-lg">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Location
-                  </h2>
-                  <div className="h-[400px] w-full rounded-lg overflow-hidden">
-                    <MapComponent address={deal.address} />
-                  </div>
+                {/* Map */}
+                <div className="h-[400px] w-full rounded-lg overflow-hidden">
+                  <MapComponent address={deal.address} />
                 </div>
               </div>
             </div>

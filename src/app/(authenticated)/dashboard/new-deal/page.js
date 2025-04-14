@@ -58,9 +58,9 @@ export default function NewDeal() {
     { id: "leaseAbstracts", name: "Lease Abstracts" },
     { id: "sitePlans", name: "Site Plans & Floor Plates" },
     { id: "environmental", name: "Environmental Reports" },
-    { id: "engineering", name: "Engineering Reports" },
+    { id: "engineering", name: "PCA Reports" },
     { id: "underwriting", name: "Argus/Excel Underwriting Models" },
-    { id: "purchaseAgreement", name: "Purchase & Sale Agreement" },
+    { id: "underwrite", name: "Underwrite" },
   ];
 
   const handleChange = (e) => {
