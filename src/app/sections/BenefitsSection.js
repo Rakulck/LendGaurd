@@ -9,8 +9,8 @@ export default function BenefitsSection() {
               Key Benefits
             </h2>
             <p className="text-2xl text-gray-600 leading-relaxed">
-              Experience the advantages of our specialized loan pre-screening
-              platform
+              Experience the power of a unified platform designed to simplify
+              real estate dealmaking from start to finish.
             </p>
           </div>
 
@@ -38,11 +38,12 @@ export default function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                      Speed
+                      ⚡️ Speed
                     </h3>
                     <p className="text-xl text-gray-800 leading-relaxed transition-all duration-300 group-hover:text-gray-900">
-                      Accelerate loan pre-screening without sacrificing accuracy
-                      or security.
+                      Launch deals faster with automated underwriting, built-in
+                      legal workflows, and instant investor onboarding — no more
+                      switching between tools.
                     </p>
                   </div>
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
@@ -71,11 +72,12 @@ export default function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                      Affordability
+                      💰 Affordability
                     </h3>
                     <p className="text-xl text-gray-800 leading-relaxed transition-all duration-300 group-hover:text-gray-900">
-                      Achieve cost-effective solutions tailored to the specific
-                      needs of Optigo lenders.
+                      An all-in-one solution that replaces 4+ platforms at a
+                      fraction of the cost. Designed for sponsors and investors
+                      who demand performance without the premium.
                     </p>
                   </div>
                   <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500 transform origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
@@ -104,11 +106,12 @@ export default function BenefitsSection() {
                   </div>
                   <div>
                     <h3 className="text-3xl font-bold text-gray-900 mb-3">
-                      Security
+                      🔒 Security
                     </h3>
                     <p className="text-xl text-gray-800 leading-relaxed transition-all duration-300 group-hover:text-gray-900">
-                      Rest assured with secure processing that protects your
-                      data at every step.
+                      Your data and documents are protected with bank-grade
+                      encryption and secure compliance workflow — from
+                      underwriting to capital calls.
                     </p>
                   </div>
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>

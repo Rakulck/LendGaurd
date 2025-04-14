@@ -57,9 +57,11 @@ export default function About() {
                     <h2 className="text-2xl font-bold">Our Mission</h2>
                   </div>
                   <p className="text-2xl leading-relaxed text-gray-800 transition-all duration-300 group-hover:text-gray-900">
-                    To provide real estate lenders with secure, fast, and
-                    affordable loan sizing services, tailored to the demands to
-                    increase profit margins.
+                    To empower real estate sponsors and investors with a modern
+                    platform that simplifies underwriting, fundraising, legal
+                    execution, and portfolio management — all in one place.
+                    We’re here to make complex deals faster, smarter, and more
+                    accessible.
                   </p>
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </div>
@@ -73,10 +75,11 @@ export default function About() {
                     <h2 className="text-2xl font-bold">Our Process</h2>
                   </div>
                   <p className="text-2xl leading-relaxed text-gray-800 transition-all duration-300 group-hover:text-gray-900">
-                    We understand the importance of efficiency and accuracy in
-                    the loan pre-screening process. Our team brings industry
-                    knowledge that delivers results to stay competitive and
-                    compliant.
+                    We build with purpose, combining real estate expertise,
+                    automation, and secure infrastructure to streamline every
+                    step of the deal lifecycle. From opportunity evaluation to
+                    capital deployment, we help our users stay ahead — with
+                    precision, compliance, and confidence.
                   </p>
                   <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500 transform origin-right scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </div>

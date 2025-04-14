@@ -8,23 +8,25 @@ export default function RevolutionSection() {
       <div className="relative mx-auto px-8 max-w-7xl">
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
-            Revolutionizing Deal Flow with advanced underwriting options and an
-            easy-to-access deal box.
+            Hassle-Free End-to-End Solutions — Underwrite, Fundraise, Close and
+            Manage in One Place
           </h2>
         </div>
         <div className="text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto text-center">
           <p className="mb-8 text-2xl text-gray-700">
-            We are dedicated to supporting individual investors, family offices,
-            and institutions in underwriting acquisitions/refinances with
-            greater precision, speed, and confidence. Our secure and streamlined
-            workflows are designed to help you assess risk more accurately,
-            reduce uncertainty, and accelerate decision-making—all while
-            enhancing profitability.
+            We’re building a modern operating system for real estate sponsors
+            and investors — combining advanced underwriting, fundraising, legal
+            workflows, and investor management in a single platform. Whether
+            you're a sponsor launching your next deal or an investor evaluating
+            opportunities, our all-in-one solution offers precision, speed, and
+            clarity across every step of the deal lifecycle.
           </p>
           <p className="text-2xl text-gray-700">
-            We leverage a data-driven approach to clarify even the most complex
-            acquisition structures and support more consistent, informed
-            underwriting outcomes.
+            From detailed automated underwriting to capital deployment, secure
+            document handling, and real-time reporting — we help you move
+            faster, underwrite smarter, and engage more confidently. Powered by
+            data. Designed for efficiency. Built for the future of real estate
+            dealmaking.
           </p>
         </div>
       </div>
