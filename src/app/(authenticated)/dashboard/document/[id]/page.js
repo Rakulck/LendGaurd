@@ -244,7 +244,7 @@ export default function DealDetails() {
                   <li key={doc.id}>
                     <div
                       className="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-sm"
-                      onClick={() => doc.hasDropdown && toggleDocExpand(doc.id)}
+                      onClick={() => toggleDocExpand(doc.id)}
                     >
                       <div className="flex items-center space-x-4">
                         <FiFileText className="text-gray-600 w-6 h-6" />
@@ -252,58 +252,64 @@ export default function DealDetails() {
                           {doc.name}
                         </span>
                       </div>
-                      {doc.hasDropdown && (
-                        <div>
-                          {expandedDoc === doc.id ? (
-                            <FiChevronUp className="text-gray-600 w-5 h-5" />
-                          ) : (
-                            <FiChevronDown className="text-gray-600 w-5 h-5" />
-                          )}
-                        </div>
-                      )}
+                      <div>
+                        {expandedDoc === doc.id ? (
+                          <FiChevronUp className="text-gray-600 w-5 h-5" />
+                        ) : (
+                          <FiChevronDown className="text-gray-600 w-5 h-5" />
+                        )}
+                      </div>
                     </div>
-                    {doc.hasDropdown && expandedDoc === doc.id && (
+                    {expandedDoc === doc.id && (
                       <div className="mt-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <div className="mb-4">
-                          <h3 className="text-md font-semibold text-gray-800 mb-2">
-                            Rent Roll
-                          </h3>
-                          <div className="flex items-center space-x-3 p-3 bg-white rounded-md shadow-sm">
-                            <FiFileText className="text-green-500" />
-                            <span className="text-sm font-medium">
-                              Next_Chapter-RentRoll.xlsx
-                            </span>
-                          </div>
-                        </div>
+                        {doc.hasDropdown ? (
+                          <>
+                            <div className="mb-4">
+                              <h3 className="text-md font-semibold text-gray-800 mb-2">
+                                Rent Roll
+                              </h3>
+                              <div className="flex items-center space-x-3 p-3 bg-white rounded-md shadow-sm">
+                                <FiFileText className="text-green-500" />
+                                <span className="text-sm font-medium">
+                                  Next_Chapter-RentRoll.xlsx
+                                </span>
+                              </div>
+                            </div>
 
-                        <div className="mb-4">
-                          <h3 className="text-md font-semibold text-gray-800 mb-2">
-                            T12
-                          </h3>
-                          <div className="flex items-center space-x-3 p-3 bg-white rounded-md shadow-sm">
-                            <FiFileText className="text-green-500" />
-                            <span className="text-sm font-medium">
-                              Next_Chapter-T12.xlsx
-                            </span>
-                          </div>
-                        </div>
+                            <div className="mb-4">
+                              <h3 className="text-md font-semibold text-gray-800 mb-2">
+                                T12
+                              </h3>
+                              <div className="flex items-center space-x-3 p-3 bg-white rounded-md shadow-sm">
+                                <FiFileText className="text-green-500" />
+                                <span className="text-sm font-medium">
+                                  Next_Chapter-T12.xlsx
+                                </span>
+                              </div>
+                            </div>
 
-                        <button
-                          className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
-                          onClick={handleUnderwriteClick}
-                          disabled={isUnderwriting}
-                        >
-                          {isUnderwriting ? (
-                            <>
-                              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
-                              Processing...
-                            </>
-                          ) : (
-                            <>
-                              <FiDownload className="mr-2" /> Underwrite
-                            </>
-                          )}
-                        </button>
+                            <button
+                              className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
+                              onClick={handleUnderwriteClick}
+                              disabled={isUnderwriting}
+                            >
+                              {isUnderwriting ? (
+                                <>
+                                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+                                  Processing...
+                                </>
+                              ) : (
+                                <>
+                                  <FiDownload className="mr-2" /> Underwrite
+                                </>
+                              )}
+                            </button>
+                          </>
+                        ) : (
+                          <div className="text-sm text-gray-500">
+                            No documents available
+                          </div>
+                        )}
                       </div>
                     )}
                   </li>
