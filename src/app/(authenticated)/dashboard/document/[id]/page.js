@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import GoogleMapsProvider from "../../../../../components/GoogleMapsProvider";
 import MapComponent from "../../../../../components/MapComponent";
-import { FiFileText } from "react-icons/fi";
+import {
+  FiFileText,
+  FiChevronDown,
+  FiChevronUp,
+  FiDownload,
+} from "react-icons/fi";
 // import Breadcrumbs from "../../../../../../../components/Breadcrumbs";
 
 export default function DealDetails() {
@@ -13,6 +18,7 @@ export default function DealDetails() {
   const supabase = createClientComponentClient();
   const [deal, setDeal] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [expandedDoc, setExpandedDoc] = useState(null);
 
   // Sample deal data - in a real app, this would come from your database
   const sampleDeals = {
@@ -170,6 +176,24 @@ export default function DealDetails() {
     setLoading(false);
   }, [params.id]);
 
+  const toggleDocExpand = (docId) => {
+    if (expandedDoc === docId) {
+      setExpandedDoc(null);
+    } else {
+      setExpandedDoc(docId);
+    }
+  };
+
+  const handleUnderwriteClick = () => {
+    // Create a fake download link
+    const downloadLink = document.createElement("a");
+    downloadLink.href = "/Next_Chapter-UW.xlsx"; // In a real app, this would be a valid URL to the file
+    downloadLink.download = "Next_Chapter-UW.xlsx";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -200,21 +224,68 @@ export default function DealDetails() {
                 {[
                   { id: 1, name: "Property Appraisal" },
                   { id: 2, name: "Title Deed" },
-                  { id: 3, name: "Financial Documents" },
+                  { id: 3, name: "Financial Documents", hasDropdown: true },
                   { id: 4, name: "Insurance Documents" },
                   { id: 5, name: "Environmental Reports" },
                   { id: 6, name: "Lease Agreements" },
                   { id: 7, name: "Tax Returns" },
                   { id: 8, name: "Building Permits" },
                 ].map((doc) => (
-                  <li
-                    key={doc.id}
-                    className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-sm"
-                  >
-                    <FiFileText className="text-gray-600 w-6 h-6" />
-                    <span className="text-gray-800 font-medium">
-                      {doc.name}
-                    </span>
+                  <li key={doc.id}>
+                    <div
+                      className="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:shadow-sm"
+                      onClick={() => doc.hasDropdown && toggleDocExpand(doc.id)}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <FiFileText className="text-gray-600 w-6 h-6" />
+                        <span className="text-gray-800 font-medium">
+                          {doc.name}
+                        </span>
+                      </div>
+                      {doc.hasDropdown && (
+                        <div>
+                          {expandedDoc === doc.id ? (
+                            <FiChevronUp className="text-gray-600 w-5 h-5" />
+                          ) : (
+                            <FiChevronDown className="text-gray-600 w-5 h-5" />
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    {doc.hasDropdown && expandedDoc === doc.id && (
+                      <div className="mt-2 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div className="mb-4">
+                          <h3 className="text-md font-semibold text-gray-800 mb-2">
+                            Rent Roll
+                          </h3>
+                          <div className="flex items-center space-x-3 p-3 bg-white rounded-md shadow-sm">
+                            <FiFileText className="text-green-500" />
+                            <span className="text-sm font-medium">
+                              Next_Chapter-RentRoll.xlsx
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <h3 className="text-md font-semibold text-gray-800 mb-2">
+                            T12
+                          </h3>
+                          <div className="flex items-center space-x-3 p-3 bg-white rounded-md shadow-sm">
+                            <FiFileText className="text-green-500" />
+                            <span className="text-sm font-medium">
+                              Next_Chapter-T12.xlsx
+                            </span>
+                          </div>
+                        </div>
+
+                        <button
+                          className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
+                          onClick={handleUnderwriteClick}
+                        >
+                          <FiDownload className="mr-2" /> Underwrite
+                        </button>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
