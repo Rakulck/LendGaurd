@@ -8,29 +8,23 @@ export default function RevolutionSection() {
       <div className="relative mx-auto px-8 max-w-7xl">
         <div className="text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-extrabold mb-6 leading-tight bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
-            Hassle-Free End-to-End Solutions — Underwrite, Fundraise, Close and
-            Manage in One Place
+            Streamline Real Estate Dealflow - Underwrite, Raise, Close, and
+            Manage in One Platform
           </h2>
         </div>
         <div className="text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto text-center">
           <p className="mb-8 text-2xl text-gray-700">
-            We’re building a modern operating system for real estate sponsors
-            and investors — combining advanced underwriting, fundraising, legal
-            workflows, and investor management in a single platform.
+            We’re building a modern OS for real estate sponsors and investors,
+            integrating advanced underwriting, capital raising, legal workflows,
+            and investor management in a single, efficient solution.
           </p>
           <p className="text-2xl text-gray-700 mb-8">
-            Whether you're a sponsor launching your next deal or an investor
-            evaluating opportunities, our all-in-one solution offers precision,
-            speed, and clarity across every step of the deal lifecycle.
+            From automated analysis to secure document handling and real-time
+            reporting, we enable faster execution, smarter decisions, and
+            seamless collaboration.
           </p>
           <p className="text-2xl text-gray-700 mb-8">
-            From detailed automated underwriting to capital deployment, secure
-            document handling, and real-time reporting — we help you move
-            faster, underwrite smarter, and engage more confidently.
-          </p>
-          <p className="text-2xl text-gray-700">
-            Powered by data. Designed for efficiency. Built for the future of
-            real estate dealmaking.
+            Data-driven. Efficient. Future-ready.
           </p>
         </div>
       </div>

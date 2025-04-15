@@ -19,6 +19,7 @@ export default function DealDetails() {
   const [deal, setDeal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [expandedDoc, setExpandedDoc] = useState(null);
+  const [isUnderwriting, setIsUnderwriting] = useState(false);
 
   // Sample deal data - in a real app, this would come from your database
   const sampleDeals = {
@@ -185,13 +186,22 @@ export default function DealDetails() {
   };
 
   const handleUnderwriteClick = () => {
-    // Create a fake download link
-    const downloadLink = document.createElement("a");
-    downloadLink.href = "/Next_Chapter-UW.xlsx"; // In a real app, this would be a valid URL to the file
-    downloadLink.download = "Next_Chapter-UW.xlsx";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    // Set loading state
+    setIsUnderwriting(true);
+
+    // Simulate processing time
+    setTimeout(() => {
+      // Create a fake download link
+      const downloadLink = document.createElement("a");
+      downloadLink.href = "/Next_Chapter-UW.xlsx"; // In a real app, this would be a valid URL to the file
+      downloadLink.download = "Next_Chapter-UW.xlsx";
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+
+      // Reset loading state
+      setIsUnderwriting(false);
+    }, 3000);
   };
 
   if (loading) {
@@ -281,8 +291,18 @@ export default function DealDetails() {
                         <button
                           className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium flex items-center justify-center"
                           onClick={handleUnderwriteClick}
+                          disabled={isUnderwriting}
                         >
-                          <FiDownload className="mr-2" /> Underwrite
+                          {isUnderwriting ? (
+                            <>
+                              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+                              Processing...
+                            </>
+                          ) : (
+                            <>
+                              <FiDownload className="mr-2" /> Underwrite
+                            </>
+                          )}
                         </button>
                       </div>
                     )}
