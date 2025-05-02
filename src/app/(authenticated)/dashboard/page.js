@@ -113,7 +113,7 @@ export default function DealRoom() {
           {/* Header */}
           <div className="flex justify-between items-center mb-6 border-b-2 border-gray-200 pb-6">
             <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-black to-gray-600 tracking-tight">
-              LendGuard Deal Room
+              CREvolt Deal Room
             </h1>
             {/* Add New Deal Button */}
             <button

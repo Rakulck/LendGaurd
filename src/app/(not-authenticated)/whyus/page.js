@@ -59,7 +59,7 @@ export default function WhyUs() {
         <div className="container mx-auto px-6 py-24">
           <div className="text-center mb-16">
             <h1 className="text-6xl mt-10 md:text-7xl font-bold mb-6">
-              Why Choose LendGaurd?
+              Why Choose CREvolt?
             </h1>
             <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
           </div>

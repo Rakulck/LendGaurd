@@ -29,8 +29,11 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="text-5xl font-bold text-gray-800 tracking-tight">
-              LendGuard
+            <Link
+              href="/"
+              className="text-5xl font-bold text-gray-800 tracking-tight"
+            >
+              CREvolt
             </Link>
           </div>
 
@@ -45,7 +48,7 @@ export default function Navbar() {
                 Services
               </a>
                <Link href="/whyus" className="text-2xl font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300">
-                Why LendGaurd
+                Why CREvolt
               </Link>
               <Link
                 href="/about"
@@ -116,7 +119,7 @@ export default function Navbar() {
             href="/whyus"
             className="block px-3 py-2 text-lg font-medium text-gray-800 hover:text-blue-600 hover:bg-gray-50 rounded-lg"
           >
-            Why LendGaurd
+            Why CREvolt
           </Link>
           <Link
             href="/about"

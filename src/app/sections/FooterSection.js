@@ -32,10 +32,10 @@ export default function FooterSection() {
                 </li>
                 <li>
                   <a
-                    href="mailto:kavinsv01@gmail.com"
+                    href="mailto:info@crevolt.com"
                     className="hover:text-blue-400"
                   >
-                    kavinsv01@gmail.com
+                    info@crevolt.com
                   </a>
                 </li>
               </ul>
@@ -43,7 +43,7 @@ export default function FooterSection() {
           </div>
 
           <div className="border-t border-white/10 mt-12 pt-8 text-center text-sm">
-            <p>© {new Date().getFullYear()} LendGuard. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} CREvolt. All rights reserved.</p>
           </div>
         </div>
       </div>
